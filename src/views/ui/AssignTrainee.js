@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
-const AssignTraineeToBatchForm = () => {
+const AssignTrainee = () => {
   const [batchId, setBatchId] = useState('');
   const [traineeList, setTraineeList] = useState([]);
   const [selectedTrainees, setSelectedTrainees] = useState([]);
@@ -114,4 +114,4 @@ const AssignTraineeToBatchForm = () => {
   );
 };
 
-export default AssignTraineeToBatchForm;
+export default AssignTrainee;

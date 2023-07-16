@@ -20,13 +20,13 @@ const navigation = [
     icon: "bi bi-people",
   },
   {
-    title: "Batch",
+    title: "Register Batch",
     href: "/admin/register/batch",
     icon: "bi bi-people",
   },
   {
-    title: "Alert",
-    href: "/alerts",
+    title: "Assign Trainee",
+    href: "/admin/assign/trainee",
     icon: "bi bi-bell",
   },
   {
