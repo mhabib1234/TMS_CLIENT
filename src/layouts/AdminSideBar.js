@@ -30,24 +30,14 @@ const navigation = [
     icon: "bi bi-bell",
   },
   {
-    title: "Badges",
-    href: "/badges",
+    title: "Assign Trainer",
+    href: "/admin/assign/trainer",
     icon: "bi bi-patch-check",
   },
   {
-    title: "Buttons",
-    href: "/buttons",
-    icon: "bi bi-hdd-stack",
-  },
-  {
-    title: "Cards",
-    href: "/cards",
-    icon: "bi bi-card-text",
-  },
-  {
-    title: "Grid",
-    href: "/grid",
-    icon: "bi bi-columns",
+    title: "Badges",
+    href: "/badges",
+    icon: "bi bi-patch-check",
   },
   {
     title: "Table",
@@ -59,13 +49,7 @@ const navigation = [
     href: "/forms",
     icon: "bi bi-textarea-resize",
   },
-  {
-    title: "Breadcrumbs",
-    href: "/breadcrumbs",
-    icon: "bi bi-link",
-  },
- 
-  {
+   {
     title: "Signin",
     href: "/signin",
     icon: "bi bi-people",

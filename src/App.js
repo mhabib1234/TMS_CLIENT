@@ -10,6 +10,7 @@ import TrainerSignup from "./views/ui/TrainerSignup";
 import TraineeSignup from './views/ui/TraineeSignup';
 import Batch from "./views/ui/Batch"
 import AssignTrainee from './views/ui/AssignTrainee';
+import AssignTrainer from './views/ui/AssignTrainer';
 
 // Lazy-loaded components
 const Starter = lazy(() => import('./views/Starter'));
@@ -29,7 +30,7 @@ function App() {
             <Route path="/admin/register/trainer" element={<TrainerSignup />} />
             <Route path="/admin/register/batch" element={<Batch />} />
             <Route path="/admin/assign/trainee" element={<AssignTrainee />} />
-
+            <Route path="/admin/assign/trainer" element={<AssignTrainer />} />
           </Route>
         </Route>
 

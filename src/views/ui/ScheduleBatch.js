@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
-const ScheduleBatchForm = () => {
+const ScheduleBatch = () => {
   const [courseName, setCourseName] = useState('');
   const [courseType, setCourseType] = useState('Common');
   const [startDate, setStartDate] = useState('');
@@ -130,4 +130,4 @@ const ScheduleBatchForm = () => {
   );
 };
 
-export default ScheduleBatchForm;
+export default ScheduleBatch;
