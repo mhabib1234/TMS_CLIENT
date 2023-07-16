@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Container } from "reactstrap";
 import Header from "./Header";
-import TraineeSidebar from "./TraineeSidebar";
+import TrainerSidebar from "./TrainerSidebar";
 
 const TrainerLayout = () => {
   return (
@@ -9,7 +9,7 @@ const TrainerLayout = () => {
       <div className="pageWrapper d-lg-flex">
         {/********Sidebar**********/}
         <aside className="sidebarArea shadow" id="sidebarArea">
-          <TrainerLayout />
+          <TrainerSidebar />
         </aside>
         {/********Content Area**********/}
 

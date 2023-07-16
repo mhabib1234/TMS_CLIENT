@@ -32,6 +32,11 @@ const SigninPage = () => {
       localStorage.removeItem("user");
       localStorage.setItem("user", JSON.stringify({ role: "trainee" }));
       navigate("/trainee/alerts");
+    }else if (email === "trainer@example.com" && password === "trainer"){
+      localStorage.removeItem("user");
+      localStorage.setItem("user", JSON.stringify({ role: "trainer" }));
+      navigate("/trainee/alerts");
+
     } else {
       setShowError(true);
     }
