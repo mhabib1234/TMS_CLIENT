@@ -35,30 +35,10 @@ const navigation = [
     icon: "bi bi-patch-check",
   },
   {
-    title: "Badges",
-    href: "/badges",
-    icon: "bi bi-patch-check",
-  },
-  {
-    title: "Table",
-    href: "/table",
+    title: "Schedule Batch",
+    href: "/admin/schedule/batch",
     icon: "bi bi-layout-split",
-  },
-  {
-    title: "Forms",
-    href: "/forms",
-    icon: "bi bi-textarea-resize",
-  },
-   {
-    title: "Signin",
-    href: "/signin",
-    icon: "bi bi-people",
-  },
-   {
-    title: "Batch",
-    href: "/about",
-    icon: "bi bi-people",
-  },
+  }
 ];
 
 
