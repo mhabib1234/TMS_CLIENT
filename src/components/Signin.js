@@ -35,7 +35,7 @@ const SigninPage = () => {
     }else if (email === "trainer@example.com" && password === "trainer"){
       localStorage.removeItem("user");
       localStorage.setItem("user", JSON.stringify({ role: "trainer" }));
-      navigate("/trainee/alerts");
+      navigate("/trainer/button");
 
     } else {
       setShowError(true);
