@@ -11,12 +11,17 @@ const navigation = [
   },
   {
     title: "Register Trainer",
-    href: "/nerregister",
+    href: "/admin/register/trainer",
     icon: "bi bi-people",
   },
   {
     title: "Register Trainee",
-    href: "/neeregister",
+    href: "/admin/register/trainee",
+    icon: "bi bi-people",
+  },
+  {
+    title: "Batch",
+    href: "/admin/register/batch",
     icon: "bi bi-people",
   },
   {
@@ -59,11 +64,7 @@ const navigation = [
     href: "/breadcrumbs",
     icon: "bi bi-link",
   },
-  {
-    title: "About",
-    href: "/about",
-    icon: "bi bi-people",
-  },
+ 
   {
     title: "Signin",
     href: "/signin",
