@@ -1,43 +1,96 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ScheduleBatch = () => {
-  const [courseName, setCourseName] = useState('');
-  const [courseType, setCourseType] = useState('Common');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [courseId, setCourseId] = useState('');
-  const [batchId, setBatchId] = useState('');
+  const [formData, setFormData] = useState({
+    courseName: '',
+    courseType: 'Common',
+    startDate: '',
+    endDate: '',
+    courseId: '',
+    batchesIds: [],
+  });
+  const [courseList, setCourseList] = useState([]);
 
-  // A mock list of courses with IDs
-  const courseList = [
-    { id: '1', name: 'Course 1' },
-    { id: '2', name: 'Course 2' },
-    { id: '3', name: 'Course 3' },
-    // Add more courses as needed
-  ];
+  useEffect(() => {
+    fetchCourses();
+  }, []);
 
-  const handleFormSubmit = (e) => {
+  const fetchCourses = async () => {
+    try {
+      const response = await axios.get('http://localhost:9080/course/all');
+      const courses = response.data.Courses.map((course) => ({
+        id: course.id.toString(),
+        name: course.name,
+      }));
+      setCourseList(courses);
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+    }
+  };
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const scheduleBatchData = {
-      courseName,
-      courseType,
-      startDate,
-      endDate,
-      courseId,
-      batchId: courseType === 'Domain Specific' ? parseInt(batchId) : null
-    };
-    // Perform form submission logic here with the scheduleBatchData
-    console.log(scheduleBatchData);
+    try {
+      console.log(formData)
+      const response = await axios.post('http://localhost:9080/schedule-batch', formData);
+      toast.success(response.data);
+    } catch (error) {
+      if (error.response && error.response.data) {
+        toast.error(error.response.data);
+      } else {
+        toast.error('Error scheduling batch');
+      }
+      console.error('Error scheduling batch:', error);
+    }
   };
+  
 
-  const handleCourseChange = (e) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'batchId' && formData.courseType === 'Domain Specific') {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        batchesIds: [parseInt(value)],
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
+  };
+  
+  const handleCourseChange = async (e) => {
     const selectedCourse = courseList.find((course) => course.name === e.target.value);
-    setCourseName(e.target.value);
-    setCourseId(selectedCourse ? selectedCourse.id : '');
-    setBatchId('');
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      courseName: e.target.value,
+      courseId: selectedCourse ? selectedCourse.id : '',
+      batchesIds: selectedCourse.courseType === 'Common' ? [] : prevFormData.batchesIds,
+    }));
+  
+    if (e.target.value && e.target.value !== '') {
+      try {
+        if (selectedCourse.courseType === 'Common') {
+          const response = await axios.get('http://localhost:9080/batch/all');
+          const batchIds = response.data.map((batch) => batch.id);
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            batchesIds: batchIds,
+          }));
+        }
+      } catch (error) {
+        console.error('Error fetching batch IDs:', error);
+      }
+    }
   };
-
+  
+  
+  
   return (
     <div style={{ backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
       <Container>
@@ -50,7 +103,8 @@ const ScheduleBatch = () => {
                 <Input
                   type="select"
                   id="courseName"
-                  value={courseName}
+                  name="courseName"
+                  value={formData.courseName}
                   onChange={handleCourseChange}
                   required
                 >
@@ -68,8 +122,9 @@ const ScheduleBatch = () => {
                 <Input
                   type="select"
                   id="courseType"
-                  value={courseType}
-                  onChange={(e) => setCourseType(e.target.value)}
+                  name="courseType"
+                  value={formData.courseType}
+                  onChange={handleInputChange}
                 >
                   <option value="Common">Common</option>
                   <option value="Domain Specific">Domain Specific</option>
@@ -81,8 +136,9 @@ const ScheduleBatch = () => {
                 <Input
                   type="date"
                   id="startDate"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
+                  name="startDate"
+                  value={formData.startDate}
+                  onChange={handleInputChange}
                 />
               </FormGroup>
 
@@ -91,8 +147,9 @@ const ScheduleBatch = () => {
                 <Input
                   type="date"
                   id="endDate"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
+                  name="endDate"
+                  value={formData.endDate}
+                  onChange={handleInputChange}
                 />
               </FormGroup>
 
@@ -101,20 +158,22 @@ const ScheduleBatch = () => {
                 <Input
                   type="text"
                   id="courseId"
-                  value={courseId}
+                  name="courseId"
+                  value={formData.courseId}
                   disabled
                 />
               </FormGroup>
 
-              {courseType === 'Domain Specific' && (
+              {formData.courseType === 'Domain Specific' && (
                 <FormGroup>
                   <Label for="batchId">Batch ID</Label>
                   <Input
                     type="number"
                     id="batchId"
+                    name="batchId"
                     placeholder="Enter batch ID"
-                    value={batchId}
-                    onChange={(e) => setBatchId(e.target.value)}
+                    value={formData.batchId}
+                    onChange={handleInputChange}
                   />
                 </FormGroup>
               )}
@@ -126,6 +185,7 @@ const ScheduleBatch = () => {
           </Col>
         </Row>
       </Container>
+      <ToastContainer />
     </div>
   );
 };
