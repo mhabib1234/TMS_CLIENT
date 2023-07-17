@@ -53,7 +53,7 @@ const Starter = () => {
           <TopCards
             bg="bg-light-success text-success"
             title="Profit"
-            subtitle="Yearly Earning"
+            subtitle="Total Batches"
             earning="$21k"
             icon="bi bi-wallet"
           />
@@ -62,7 +62,7 @@ const Starter = () => {
           <TopCards
             bg="bg-light-danger text-danger"
             title="Refunds"
-            subtitle="Refund given"
+            subtitle="Total Trainers"
             earning="$1k"
             icon="bi bi-coin"
           />
@@ -71,7 +71,7 @@ const Starter = () => {
           <TopCards
             bg="bg-light-warning text-warning"
             title="New Project"
-            subtitle="Yearly Project"
+            subtitle="Total Trainee"
             earning="456"
             icon="bi bi-basket3"
           />
@@ -80,7 +80,7 @@ const Starter = () => {
           <TopCards
             bg="bg-light-info text-into"
             title="Sales"
-            subtitle="Weekly Sales"
+            subtitle="Total Courses"
             earning="210"
             icon="bi bi-bag"
           />
