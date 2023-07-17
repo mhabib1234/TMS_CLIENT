@@ -5,6 +5,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const TraineeRegister = () => {
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [domain, setDomain] = useState('');
@@ -14,6 +15,7 @@ const TraineeRegister = () => {
 
     try {
       const response = await axios.post("http://localhost:9080/trainee/register", {
+        fullName,
         email,
         password,
         domain,
@@ -30,6 +32,7 @@ const TraineeRegister = () => {
         // Display success toast notification
         toast.success("Registration successful!", { autoClose: 3000 });
         // Clear form fields
+        setFullName('');
         setEmail('');
         setPassword('');
         setDomain('');
@@ -51,6 +54,18 @@ const TraineeRegister = () => {
           <Col md={6}>
             <Form onSubmit={handleFormSubmit}>
               <h2 className="text-center mb-4">Trainee Registration</h2>
+
+              <FormGroup>
+                <Label for="fullName">Full Name</Label>
+                <Input
+                  type="text"
+                  id="fullName"
+                  placeholder="Enter full name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
+                />
+              </FormGroup>
 
               <FormGroup>
                 <Label for="email">Email Address</Label>

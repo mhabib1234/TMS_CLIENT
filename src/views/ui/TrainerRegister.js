@@ -5,17 +5,25 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const TrainerRegister = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:9080/trainer/register", {
-        email,
-        password,
-      }, {
+      const response = await axios.post("http://localhost:9080/trainer/register", formData, {
         crossDomain: true,
         headers: {
           "Content-Type": "application/json",
@@ -28,8 +36,11 @@ const TrainerRegister = () => {
         // Display success toast notification
         toast.success("Registration successful!", { autoClose: 3000 });
         // Clear form fields
-        setEmail('');
-        setPassword('');
+        setFormData({
+          fullName: '',
+          email: '',
+          password: '',
+        });
       } else {
         // Display error toast notification
         toast.error("Registration failed. Please try again.", { autoClose: 3000 });
@@ -50,13 +61,27 @@ const TrainerRegister = () => {
               <h2 className="text-center mb-4">Trainer Registration</h2>
 
               <FormGroup>
+                <Label for="fullName">Full Name</Label>
+                <Input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  placeholder="Enter full name"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  required
+                />
+              </FormGroup>
+
+              <FormGroup>
                 <Label for="email">Email Address</Label>
                 <Input
                   type="email"
                   id="email"
+                  name="email"
                   placeholder="Enter email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formData.email}
+                  onChange={handleInputChange}
                   required
                 />
               </FormGroup>
@@ -66,9 +91,10 @@ const TrainerRegister = () => {
                 <Input
                   type="password"
                   id="password"
+                  name="password"
                   placeholder="Enter password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={formData.password}
+                  onChange={handleInputChange}
                   required
                 />
               </FormGroup>
