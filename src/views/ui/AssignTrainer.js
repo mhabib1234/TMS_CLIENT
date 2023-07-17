@@ -1,55 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AssignTrainer = () => {
   const [batchId, setBatchId] = useState('');
-  const [batchList, setBatchList] = useState([]);
   const [trainerList, setTrainerList] = useState([]);
   const [selectedTrainers, setSelectedTrainers] = useState([]);
+  const [batchList, setBatchList] = useState([]);
 
-  // A mock list of batches with names and IDs
-  const mockBatchList = [
-    { id: '1', name: 'Batch 1' },
-    { id: '2', name: 'Batch 2' },
-    { id: '3', name: 'Batch 3' },
-    // Add more batches as needed
-  ];
-
-  // A mock list of trainers
-  const mockTrainerList = [
-    { id: '1', name: 'Trainer 1' },
-    { id: '2', name: 'Trainer 2' },
-    { id: '3', name: 'Trainer 3' },
-    // Add more trainers as needed
-  ];
-
-  /*
   useEffect(() => {
-    // Fetch the batch data from the backend API
-    const fetchBatches = async () => {
-      try {
-        const response = await fetch('/api/batches');
-        const data = await response.json();
-        setBatchList(data);
-      } catch (error) {
-        console.error('Error fetching batches:', error);
-      }
-    };
-    fetchBatches();
-
-    // Fetch the trainer data from the backend API
-    const fetchTrainers = async () => {
-      try {
-        const response = await fetch('/api/trainers');
-        const data = await response.json();
-        setTrainerList(data);
-      } catch (error) {
-        console.error('Error fetching trainers:', error);
-      }
-    };
+    fetchBatchNames();
     fetchTrainers();
   }, []);
-  */
+
+  const fetchBatchNames = async () => {
+    try {
+      const response = await axios.get('http://localhost:9080/batch/get/all');
+      const batches = response.data.Batches.map((batch) => ({
+        id: batch.id.toString(),
+        name: batch.batchName,
+      }));
+      setBatchList(batches);
+    } catch (error) {
+      console.error('Error fetching batch names:', error);
+    }
+  };
+
+  const fetchTrainers = async () => {
+    try {
+      const response = await axios.get('http://localhost:9080/trainer/get/all');
+      console.log(response.data);
+      const trainers = response.data.Trainer.map((trainer) => ({
+        id: trainer.id,
+        name: trainer.fullName,
+      }));
+      setTrainerList(trainers);
+    } catch (error) {
+      console.error('Error fetching trainers:', error);
+    }
+  };
 
   const handleBatchChange = (e) => {
     const selectedBatchId = e.target.value;
@@ -65,11 +56,31 @@ const AssignTrainer = () => {
     }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // Perform form submission logic here with the batchId and selectedTrainers
-    console.log('Batch ID:', batchId);
-    console.log('Selected Trainers:', selectedTrainers);
+    // Prepare the request body
+    const requestBody = {
+      batchId: batchId,
+      trainerIds: selectedTrainers,
+    };
+
+    try {
+      // Send the POST request to the backend API
+      const response = await axios.post('http://localhost:9080/assign_trainer', requestBody);
+      console.log('Response:', response.data);
+      toast.success('Trainers assigned successfully');
+      console.log('Response:', response.data);
+
+      // Reset the form fields to their initial values
+      setBatchId('');
+      setSelectedTrainers([]);
+
+      // Fetch updated trainers
+      fetchTrainers();
+    } catch (error) {
+      toast.error('Error assigning trainers');
+      console.error('Error assigning trainers:', error);
+    }
   };
 
   return (
@@ -89,7 +100,7 @@ const AssignTrainer = () => {
                   required
                 >
                   <option value="">Select a batch</option>
-                  {mockBatchList.map((batch) => (
+                  {batchList.map((batch) => (
                     <option key={batch.id} value={batch.id}>
                       {batch.name}
                     </option>
@@ -100,7 +111,7 @@ const AssignTrainer = () => {
               <FormGroup>
                 <Label for="trainerList">Trainer List</Label>
                 <div id="trainerList">
-                  {mockTrainerList.map((trainer) => (
+                  {trainerList.map((trainer) => (
                     <div key={trainer.id}>
                       <input
                         type="checkbox"
@@ -122,6 +133,7 @@ const AssignTrainer = () => {
           </Col>
         </Row>
       </Container>
+      <ToastContainer />
     </div>
   );
 };
