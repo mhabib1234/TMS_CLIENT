@@ -1,22 +1,58 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Batch = () => {
-  const [batchName, setBatchName] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [numberOfTrainee, setNumberOfTrainee] = useState(0);
+  const [batchData, setBatchData] = useState({
+    batchName: '',
+    startDate: '',
+    endDate: '',
+    numberOfTrainee: 0,
+  });
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const batchData = {
-      batchName,
-      startDate,
-      endDate,
-      numberOfTrainee
-    };
-    // Perform form submission logic here with the batchData
-    console.log(batchData);
+
+    try {
+      const response = await axios.post("http://localhost:9080/batch", batchData, {
+        crossDomain: true,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
+
+      console.log(response.data);
+      if (response.status === 201) {
+        // Display success toast notification
+        toast.success("Batch created successfully!", { autoClose: 3000 });
+        // Clear form fields
+        setBatchData({
+          batchName: '',
+          startDate: '',
+          endDate: '',
+          numberOfTrainee: 0,
+        });
+      } else {
+        const errorMessage = response.data || "Batch creation failed. Please try again.";
+        toast.error(errorMessage, { autoClose: 3000 });
+      }
+    } catch (error) {
+      // Display error toast notification
+     // console.log(response.data);
+      toast.error("Error creating batch. Please try again.", { autoClose: 3000 });
+      
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setBatchData({
+      ...batchData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
@@ -26,14 +62,16 @@ const Batch = () => {
           <Col md={6}>
             <Form onSubmit={handleFormSubmit}>
               <h2 className="text-center mb-4">Create Batch</h2>
+
               <FormGroup>
                 <Label for="batchName">Batch Name</Label>
                 <Input
                   type="text"
                   id="batchName"
+                  name="batchName"
                   placeholder="Enter batch name"
-                  value={batchName}
-                  onChange={(e) => setBatchName(e.target.value)}
+                  value={batchData.batchName}
+                  onChange={handleInputChange}
                   required
                 />
               </FormGroup>
@@ -43,8 +81,9 @@ const Batch = () => {
                 <Input
                   type="date"
                   id="startDate"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
+                  name="startDate"
+                  value={batchData.startDate}
+                  onChange={handleInputChange}
                 />
               </FormGroup>
 
@@ -53,8 +92,9 @@ const Batch = () => {
                 <Input
                   type="date"
                   id="endDate"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
+                  name="endDate"
+                  value={batchData.endDate}
+                  onChange={handleInputChange}
                 />
               </FormGroup>
 
@@ -63,9 +103,10 @@ const Batch = () => {
                 <Input
                   type="number"
                   id="numberOfTrainee"
+                  name="numberOfTrainee"
                   placeholder="Enter number of trainees"
-                  value={numberOfTrainee}
-                  onChange={(e) => setNumberOfTrainee(parseInt(e.target.value))}
+                  value={batchData.numberOfTrainee}
+                  onChange={handleInputChange}
                 />
               </FormGroup>
 
@@ -76,6 +117,7 @@ const Batch = () => {
           </Col>
         </Row>
       </Container>
+      <ToastContainer />
     </div>
   );
 };

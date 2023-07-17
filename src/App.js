@@ -6,8 +6,6 @@ import TraineeLayout from './layouts/TraineeLayout';
 import Signin from './components/Signin';
 import AdminRoute from './routes/AuteRoutes/AdminRoute';
 import TraineeRoute from './routes/AuteRoutes/TraineeRoute';
-import TrainerSignup from "./views/ui/TrainerSignup";
-import TraineeSignup from './views/ui/TraineeSignup';
 import Batch from "./views/ui/Batch"
 import AssignTrainee from './views/ui/AssignTrainee';
 import AssignTrainer from './views/ui/AssignTrainer';

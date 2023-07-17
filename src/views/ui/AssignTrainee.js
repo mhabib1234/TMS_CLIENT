@@ -1,43 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AssignTrainee = () => {
   const [batchId, setBatchId] = useState('');
   const [traineeList, setTraineeList] = useState([]);
   const [selectedTrainees, setSelectedTrainees] = useState([]);
-
-  // A mock list of batches with names and IDs
-  const batchList = [
-    { id: '1', name: 'Batch 1' },
-    { id: '2', name: 'Batch 2' },
-    { id: '3', name: 'Batch 3' },
-    // Add more batches as needed
-  ];
-
-  // A mock list of trainees
-  const mockTraineeList = [
-    { id: '1', name: 'Trainee 1' },
-    { id: '2', name: 'Trainee 2' },
-    { id: '3', name: 'Trainee 3' },
-    // Add more trainees as needed
-  ];
+  const [batchList, setBatchList] = useState([]);
 
   useEffect(() => {
-    // Fetch the trainee data from the backend API
-    // Update the traineeList state with the fetched data
-    // Example:
-    // const fetchTrainees = async () => {
-    //   try {
-    //     const response = await fetch('/api/trainees');
-    //     const data = await response.json();
-    //     setTraineeList(data);
-    //   } catch (error) {
-    //     console.error('Error fetching trainees:', error);
-    //   }
-    // };
-    // fetchTrainees();
-    setTraineeList(mockTraineeList); // For demonstration purposes using mock data
+    fetchBatchNames();
+    fetchTrainees();
   }, []);
+
+  const fetchBatchNames = async () => {
+    try {
+      const response = await axios.get('http://localhost:9080/batch/get/all');
+      const batches = response.data.Batches.map((batch) => ({
+        id: batch.id.toString(),
+        name: batch.batchName,
+      }));
+      setBatchList(batches);
+    } catch (error) {
+      console.error('Error fetching batch names:', error);
+    }
+  };
+
+  const fetchTrainees = async () => {
+    try {
+      const response = await axios.get('http://localhost:9080/trainee/gets/all');
+      const assignedTrainees = response.data.Trainees.filter((trainee) => trainee.batchId !== null);
+      const unassignedTrainees = assignedTrainees.map((trainee) => ({
+        id: trainee.id,
+        name: trainee.fullName,
+      }));
+      setTraineeList(unassignedTrainees);
+    } catch (error) {
+      console.error('Error fetching trainees:', error);
+    }
+  };
 
   const handleBatchChange = (e) => {
     const selectedBatchId = e.target.value;
@@ -53,11 +56,30 @@ const AssignTrainee = () => {
     }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // Perform form submission logic here with the batchId and selectedTrainees
-    console.log('Batch ID:', batchId);
-    console.log('Selected Trainees:', selectedTrainees);
+    // Prepare the request body
+    const requestBody = {
+      batchId: batchId,
+      traineeIds: selectedTrainees,
+    };
+
+    try {
+      // Send the POST request to the backend API
+      const response = await axios.post('http://localhost:9080/assign-trainee', requestBody);
+      toast.success('Trainees assigned successfully');
+      console.log('Response:', response.data);
+
+      // Reset the form fields to their initial values
+      setBatchId('');
+      setSelectedTrainees([]);
+
+      // Fetch updated trainees
+      fetchTrainees();
+    } catch (error) {
+      toast.error('Error assigning trainees');
+      console.error('Error assigning trainees:', error);
+    }
   };
 
   return (
@@ -110,6 +132,7 @@ const AssignTrainee = () => {
           </Col>
         </Row>
       </Container>
+      <ToastContainer />
     </div>
   );
 };
