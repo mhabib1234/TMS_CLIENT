@@ -35,6 +35,11 @@ const navigation = [
     icon: "bi bi-patch-check",
   },
   {
+    title: "Create Course",
+    href: "/admin/create/course",
+    icon: "bi bi-card-text",
+  },
+  {
     title: "Schedule Batch",
     href: "/admin/schedule/batch",
     icon: "bi bi-layout-split",
