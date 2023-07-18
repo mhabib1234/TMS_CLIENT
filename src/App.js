@@ -18,6 +18,7 @@ import TraineeRegister from './views/ui/TraineeRegister';
 import Course from './views/ui/Course';
 import Assignment from './views/ui/Assignment';
 import TraineeStarter from './views/TraineeStarter';
+import Post from './views/ui/Post';
 
 // Lazy-loaded components
 const Starter = lazy(() => import('./views/Starter'));
@@ -32,7 +33,7 @@ function App() {
           
           <Route element={<AdminRoute />}>
           <Route path="admin" element={<AdminLayout />}>
-            <Route path="/admin/starter" element={<Starter />} />
+            <Route path="/admin/dashboard" element={<Starter />} />
             <Route path="/admin/register/trainee" element={<TraineeRegister />} />
             <Route path="/admin/register/trainer" element={<TrainerRegister />} />
             <Route path="/admin/register/batch" element={<Batch />} />
@@ -46,13 +47,14 @@ function App() {
           <Route element={<TraineeRoute />}>
             <Route path="trainee" element={<TraineeLayout />}>
               <Route path="/trainee/dashboard" element={<TraineeStarter />} />
-              <Route path="/trainee/create/assignment" element={<Assignment/>} />
             </Route>
           </Route>
 
           <Route element={<TrainerRoute />}>
             <Route path="trainer" element={<TrainerLayout />}>
               <Route path="/trainer/dashboard" element={<Buttons />} />
+              <Route path="/trainer/create/assignment" element={<Assignment/>} />
+              <Route path="/trainer/create/post" element={<Post/>} />
             </Route>
           </Route>
 

@@ -7,19 +7,24 @@ const navigation = [
  
   {
     title: "Dashboard",
-    href: "/buttons",
+    href: "/trainer/dashboard",
     icon: "bi bi-hdd-stack",
   },
   {
-    title: "Posts",
-    href: "/cards",
+    title: "Assignment",
+    href: "/trainer/create/assignment",
+    icon: "bi bi-columns",
+  },
+  {
+    title: "Post", 
+    href: "/trainer/create/post",
     icon: "bi bi-card-text",
   },
   {
     title: "Notice",
-    href: "/grid",
+    href: "/trainr/reate/notice",
     icon: "bi bi-columns",
-  },
+  }
 ];
 
 

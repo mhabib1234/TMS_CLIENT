@@ -17,10 +17,10 @@ const AssignTrainee = () => {
 
   const fetchBatchNames = async () => {
     try {
-      const response = await axios.get('http://localhost:9080/batch/get/all');
+      const response = await axios.get('http://localhost:9080/batch/get/allName');
       const batches = response.data.Batches.map((batch) => ({
-        id: batch.id.toString(),
-        name: batch.batchName,
+        id: batch.id,
+        name: batch.name,
       }));
       setBatchList(batches);
     } catch (error) {
