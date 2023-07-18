@@ -22,7 +22,7 @@ const navigation = [
   },
   {
     title: "Notice",
-    href: "/trainr/reate/notice",
+    href: "/trainer/create/notice",
     icon: "bi bi-columns",
   }
 ];
