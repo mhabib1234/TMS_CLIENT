@@ -38,11 +38,11 @@ const SignIn = () => {
 
       // Redirect to different routes based on role
       if (user && user.role === 'Admin') {
-        navigate('/admin/starter');
+        navigate('/admin/dashboard');
       } else if (user && user.role === 'Trainer') {
-        navigate('/trainer/button');
+        navigate('/trainer/dashboard');
       } else if (user && user.role === 'Trainee') {
-        navigate('/trainee/alerts');
+        navigate('/trainee/dashboard');
       }
     } catch (error) {
       setShowError(true);

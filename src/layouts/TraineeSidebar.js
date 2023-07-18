@@ -6,12 +6,12 @@ import Logo from "./Logo";
 const navigation = [
  
   {
-    title: "Buttons",
-    href: "/buttons",
+    title: "Dashboard",
+    href: "/trainee/dashboard",
     icon: "bi bi-hdd-stack",
   },
   {
-    title: "Cards",
+    title: "Cards", 
     href: "/cards",
     icon: "bi bi-card-text",
   },

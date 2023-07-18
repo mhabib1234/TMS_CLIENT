@@ -17,6 +17,7 @@ import TrainerRegister from './views/ui/TrainerRegister';
 import TraineeRegister from './views/ui/TraineeRegister';
 import Course from './views/ui/Course';
 import Assignment from './views/ui/Assignment';
+import TraineeStarter from './views/TraineeStarter';
 
 // Lazy-loaded components
 const Starter = lazy(() => import('./views/Starter'));
@@ -45,7 +46,7 @@ function App() {
 
           <Route element={<TraineeRoute />}>
             <Route path="trainee" element={<TraineeLayout />}>
-              <Route path="alerts" element={<Alerts />} />
+              <Route path="/trainee/dashboard" element={<TraineeStarter />} />
             </Route>
           </Route>
 
