@@ -11,25 +11,21 @@ const navigation = [
     icon: "bi bi-hdd-stack",
   },
   {
-    title: "Cards", 
-    href: "/cards",
-    icon: "bi bi-card-text",
-  },
-  {
-    title: "Grid",
-    href: "/grid",
+    title: "Assignment",
+    href: "/trainee/create/assignment",
     icon: "bi bi-columns",
   },
   {
-    title: "Table",
-    href: "/table",
-    icon: "bi bi-layout-split",
+    title: "Post", 
+    href: "/trainee/post",
+    icon: "bi bi-card-text",
   },
-   {
-    title: "Batch",
-    href: "/about",
-    icon: "bi bi-people",
-  },
+  {
+    title: "Notice",
+    href: "/traine/notice",
+    icon: "bi bi-columns",
+  }
+
 ];
 
 

@@ -58,7 +58,6 @@ const CreateAssignment = () => {
       });
     } catch (error) {
       toast.error('Error creating assignment');
-      
     }
   };
 
@@ -79,76 +78,96 @@ const CreateAssignment = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
+    <div style={{ backgroundColor: '#f8f9fa', minHeight: '50vh' }}>
       <Container>
-        <Row className="justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <Row className="justify-content-center align-items-center mt-2" style={{ minHeight: '75vh' }}>
           <Col md={6}>
             <Form onSubmit={handleFormSubmit}>
               <h2 className="text-center mb-4">Create Assignment</h2>
-              <FormGroup>
-                <Label for="scheduleId">Schedule Name</Label>
-                <Input
-                  type="select"
-                  id="scheduleId"
-                  name="scheduleId"
-                  value={formData.scheduleId}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="">Select a schedule</option>
-                  {scheduleList.map((schedule) => (
-                    <option key={schedule.id} value={schedule.id}>
-                      {schedule.name}
-                    </option>
-                  ))}
-                </Input>
+              <FormGroup row>
+                <Label for="scheduleId" sm={4}>
+                  Schedule Name
+                </Label>
+                <Col sm={8}>
+                  <Input
+                    type="select"
+                    id="scheduleId"
+                    name="scheduleId"
+                    value={formData.scheduleId}
+                    onChange={handleInputChange}
+                    required
+                  >
+                    <option value="">Select a schedule</option>
+                    {scheduleList.map((schedule) => (
+                      <option key={schedule.id} value={schedule.id}>
+                        {schedule.name}
+                      </option>
+                    ))}
+                  </Input>
+                </Col>
               </FormGroup>
 
-              <FormGroup>
-                <Label for="name">Assignment Name</Label>
-                <Input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                />
+              <FormGroup row>
+                <Label for="name" sm={4}>
+                  Assignment Name
+                </Label>
+                <Col sm={8}>
+                  <Input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </Col>
               </FormGroup>
 
-              <FormGroup>
-                <Label for="type">Type</Label>
-                <Input
-                  type="select"
-                  id="type"
-                  name="type"
-                  value={formData.type}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="">Select a type</option>
-                  <option value="Daily Task">Daily Task</option>
-                  <option value="Assignment">Assignment</option>
-                  <option value="Mini Project">Mid Term Mini Project</option>
-                  <option value="Final Project">Final Project</option>
-                </Input>
+              <FormGroup row>
+                <Label for="type" sm={4}>
+                  Type
+                </Label>
+                <Col sm={8}>
+                  <Input
+                    type="select"
+                    id="type"
+                    name="type"
+                    value={formData.type}
+                    onChange={handleInputChange}
+                    required
+                  >
+                    <option value="">Select a type</option>
+                    <option value="Daily Task">Daily Task</option>
+                    <option value="Assignment">Assignment</option>
+                    <option value="Mini Project">Mid Term Mini Project</option>
+                    <option value="Final Project">Final Project</option>
+                  </Input>
+                </Col>
               </FormGroup>
 
-              <FormGroup>
-                <Label for="deadline">Deadline</Label>
-                <Input
-                  type="date"
-                  id="deadline"
-                  name="deadline"
-                  value={formData.deadline}
-                  onChange={handleInputChange}
-                  required
-                />
+              <FormGroup row>
+                <Label for="deadline" sm={4}>
+                  Deadline
+                </Label>
+                <Col sm={8}>
+                  <Input
+                    type="date"
+                    id="deadline"
+                    name="deadline"
+                    value={formData.deadline}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </Col>
               </FormGroup>
 
-              <FormGroup>
-                <Label for="file">File</Label>
-                <Input type="file" id="file" name="file" onChange={handleFileChange} required />
+              <FormGroup row>
+                <Label for="file" sm={4}>
+                  File
+                </Label>
+                <Col sm={8}>
+                  <Input type="file" id="file" name="file" onChange={handleFileChange} required />
+                </Col>
               </FormGroup>
 
               <Button color="primary" type="submit" block>

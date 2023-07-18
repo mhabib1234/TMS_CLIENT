@@ -39,7 +39,6 @@ function App() {
             <Route path="/admin/assign/trainee" element={<AssignTrainee />} />
             <Route path="/admin/assign/trainer" element={<AssignTrainer />} />
             <Route path="/admin/create/course" element={<Course/>} />
-            <Route path="/admin/create/assignment" element={<Assignment/>} />
             <Route path="/admin/schedule/batch" element={<ScheduleBatch />} />
           </Route>
         </Route>
@@ -47,12 +46,13 @@ function App() {
           <Route element={<TraineeRoute />}>
             <Route path="trainee" element={<TraineeLayout />}>
               <Route path="/trainee/dashboard" element={<TraineeStarter />} />
+              <Route path="/trainee/create/assignment" element={<Assignment/>} />
             </Route>
           </Route>
 
           <Route element={<TrainerRoute />}>
             <Route path="trainer" element={<TrainerLayout />}>
-              <Route path="/trainer/button" element={<Buttons />} />
+              <Route path="/trainer/dashboard" element={<Buttons />} />
             </Route>
           </Route>
 
