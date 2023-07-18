@@ -53,7 +53,7 @@ const CreateCourse = () => {
       if (error.response && error.response.data) {
         toast.error(error.response.data);
       } else {
-        toast.error('Failed to create batch');
+        toast.error('Failed to create Assignment');
       }
     }
   };

@@ -43,6 +43,11 @@ const navigation = [
     title: "Schedule Batch",
     href: "/admin/schedule/batch",
     icon: "bi bi-layout-split",
+  },
+  {
+    title: "Assignment",
+    href: "/admin/create/assignment",
+    icon: "bi bi-columns",
   }
 ];
 

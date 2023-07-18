@@ -1,60 +1,81 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const Assignment = () => {
-  const [scheduleName, setScheduleName] = useState('');
-  const [scheduleId, setScheduleId] = useState('');
-  const [name, setName] = useState('');
-  const [type, setType] = useState('');
-  const [deadline, setDeadline] = useState('');
-  const [file, setFile] = useState(null);
-
-  // A mock list of schedules with names and IDs
-  const scheduleList = [
-    { id: '1', name: 'Schedule 1' },
-    { id: '2', name: 'Schedule 2' },
-    { id: '3', name: 'Schedule 3' },
-    // Add more schedules as needed
-  ];
+const CreateAssignment = () => {
+  const [formData, setFormData] = useState({
+    scheduleId: '',
+    name: '',
+    type: '',
+    deadline: '',
+    file: null,
+  });
+  const [scheduleList, setScheduleList] = useState([]);
 
   useEffect(() => {
-    // Fetch the schedule data from the backend API
-    // Update the scheduleList state with the fetched data
-    // Example:
-    // const fetchSchedules = async () => {
-    //   try {
-    //     const response = await fetch('/api/schedules');
-    //     const data = await response.json();
-    //     setScheduleList(data);
-    //   } catch (error) {
-    //     console.error('Error fetching schedules:', error);
-    //   }
-    // };
-    // fetchSchedules();
+    fetchSchedules();
   }, []);
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    const assignmentData = {
-      scheduleId,
-      name,
-      type,
-      deadline,
-      file
-    };
-    // Perform form submission logic here with the assignmentData
-    console.log(assignmentData);
+  const fetchSchedules = async () => {
+    try {
+      const response = await axios.get('http://localhost:9080/schedule-batch');
+      const schedules = response.data.Schedules.map((schedule) => ({
+        id: schedule.id,
+        name: schedule.name,
+      }));
+      setScheduleList(schedules);
+    } catch (error) {
+      console.error('Error fetching schedules:', error);
+    }
   };
 
-  const handleScheduleChange = (e) => {
-    const selectedSchedule = scheduleList.find((schedule) => schedule.name === e.target.value);
-    setScheduleName(e.target.value);
-    setScheduleId(selectedSchedule ? selectedSchedule.id : '');
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('scheduleId', formData.scheduleId);
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('type', formData.type);
+      formDataToSend.append('deadline', formData.deadline);
+      formDataToSend.append('file', formData.file);
+
+      const response = await axios.post('http://localhost:9080/assignment', formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      toast.success(response.data);
+
+      setFormData({
+        scheduleId: '',
+        name: '',
+        type: '',
+        deadline: '',
+        file: null,
+      });
+    } catch (error) {
+      toast.error('Error creating assignment');
+      
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
 
   const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
+    const file = e.target.files[0];
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      file: file,
+    }));
   };
 
   return (
@@ -65,17 +86,18 @@ const Assignment = () => {
             <Form onSubmit={handleFormSubmit}>
               <h2 className="text-center mb-4">Create Assignment</h2>
               <FormGroup>
-                <Label for="scheduleName">Schedule Name</Label>
+                <Label for="scheduleId">Schedule Name</Label>
                 <Input
                   type="select"
-                  id="scheduleName"
-                  value={scheduleName}
-                  onChange={handleScheduleChange}
+                  id="scheduleId"
+                  name="scheduleId"
+                  value={formData.scheduleId}
+                  onChange={handleInputChange}
                   required
                 >
                   <option value="">Select a schedule</option>
                   {scheduleList.map((schedule) => (
-                    <option key={schedule.id} value={schedule.name}>
+                    <option key={schedule.id} value={schedule.id}>
                       {schedule.name}
                     </option>
                   ))}
@@ -87,23 +109,29 @@ const Assignment = () => {
                 <Input
                   type="text"
                   id="name"
-                  placeholder="Enter assignment name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
                   required
                 />
               </FormGroup>
 
               <FormGroup>
-                <Label for="type">Assignment Type</Label>
+                <Label for="type">Type</Label>
                 <Input
-                  type="text"
+                  type="select"
                   id="type"
-                  placeholder="Enter assignment type"
-                  value={type}
-                  onChange={(e) => setType(e.target.value)}
+                  name="type"
+                  value={formData.type}
+                  onChange={handleInputChange}
                   required
-                />
+                >
+                  <option value="">Select a type</option>
+                  <option value="Daily Task">Daily Task</option>
+                  <option value="Assignment">Assignment</option>
+                  <option value="Mini Project">Mid Term Mini Project</option>
+                  <option value="Final Project">Final Project</option>
+                </Input>
               </FormGroup>
 
               <FormGroup>
@@ -111,31 +139,28 @@ const Assignment = () => {
                 <Input
                   type="date"
                   id="deadline"
-                  value={deadline}
-                  onChange={(e) => setDeadline(e.target.value)}
+                  name="deadline"
+                  value={formData.deadline}
+                  onChange={handleInputChange}
+                  required
                 />
               </FormGroup>
 
               <FormGroup>
                 <Label for="file">File</Label>
-                <Input
-                  type="file"
-                  id="file"
-                  accept=".pdf,.doc,.docx"
-                  onChange={handleFileChange}
-                  required
-                />
+                <Input type="file" id="file" name="file" onChange={handleFileChange} required />
               </FormGroup>
 
               <Button color="primary" type="submit" block>
-                Create
+                Create Assignment
               </Button>
             </Form>
           </Col>
         </Row>
       </Container>
+      <ToastContainer />
     </div>
   );
 };
 
-export default Assignment;
+export default CreateAssignment;
