@@ -10,7 +10,7 @@ import Batch from "./views/ui/Batch"
 import AssignTrainee from './views/ui/AssignTrainee';
 import AssignTrainer from './views/ui/AssignTrainer';
 import ScheduleBatch from './views/ui/ScheduleBatch';
-import TrainerRoute from './layouts/TrainerLayout';
+import TrainerRoute from './routes/AuteRoutes/TrainerRoute';
 import Buttons from './views/ui/Buttons';
 import TrainerLayout from './layouts/TrainerLayout';
 import TrainerRegister from './views/ui/TrainerRegister';
@@ -50,7 +50,7 @@ function App() {
           </Route>
 
           <Route element={<TrainerRoute />}>
-            <Route path="/trainer" element={<TrainerLayout />}>
+            <Route path="trainer" element={<TrainerLayout />}>
               <Route path="/trainer/button" element={<Buttons />} />
             </Route>
           </Route>

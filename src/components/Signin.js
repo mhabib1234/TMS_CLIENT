@@ -1,61 +1,67 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  Alert,
-  Button,
-  Col,
-  Container,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-  Row,
-} from "reactstrap";
+import React, { useState } from 'react';
+import { Container, Row, Col, Form, FormGroup, Label, Input, Button, Alert } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import jwtDecode from 'jwt-decode';
 
-const SigninPage = () => {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const SignIn = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showError, setShowError] = useState(false);
+  const navigate = useNavigate();
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:9080/login', { email, password }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
 
-    // Simulate authentication logic
-    if (email === "admin@example.com" && password === "admin") {
-      // Set user role in localStorage
-      localStorage.removeItem("user");
-      localStorage.setItem("user", JSON.stringify({ role: "admin" }));
-      navigate("/admin/starter");
-    } else if (email === "trainee@example.com" && password === "trainee") {
-      // Set user role in localStorage
-      localStorage.removeItem("user");
-      localStorage.setItem("user", JSON.stringify({ role: "trainee" }));
-      navigate("/trainee/alerts");
-    }else if (email === "trainer@example.com" && password === "trainer"){
-      localStorage.removeItem("user");
-      localStorage.setItem("user", JSON.stringify({ role: "trainer" }));
-      navigate("/trainer/button");
+      const token = response.data.token;
 
-    } else {
+      // Decode the token
+      const decodedToken = jwtDecode(token);
+      const role = decodedToken.roles[0].authority;
+      const userEmail = decodedToken.sub;
+      const user = { role: role, userEmail: userEmail };
+
+      // Store user and role in local storage
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+
+      toast.success('Signin Successful');
+
+      // Redirect to different routes based on role
+      if (user && user.role === 'Admin') {
+        navigate('/admin/starter');
+      } else if (user && user.role === 'Trainer') {
+        navigate('/trainer/button');
+      } else if (user && user.role === 'Trainee') {
+        navigate('/trainee/alerts');
+      }
+    } catch (error) {
       setShowError(true);
+      toast.error('Error signing in');
+      console.error('Error signing in:', error);
     }
   };
 
   return (
-    <div style={{ backgroundColor: "#f0f2f5", minHeight: "100vh" }}>
+    <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh' }}>
       <Container>
-        <Row
-          className="justify-content-center align-items-center"
-          style={{ minHeight: "100vh" }}
-        >
+        <Row className="justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
           <Col md={6}>
             <div
               style={{
-                background: "#ffffff",
-                padding: "40px",
-                borderRadius: "8px",
-                boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+                background: '#ffffff',
+                padding: '40px',
+                borderRadius: '8px',
+                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
               }}
             >
               <h2 className="text-center mb-4">Sign In</h2>
@@ -97,8 +103,9 @@ const SigninPage = () => {
           </Col>
         </Row>
       </Container>
+      <ToastContainer />
     </div>
   );
 };
 
-export default SigninPage;
+export default SignIn;

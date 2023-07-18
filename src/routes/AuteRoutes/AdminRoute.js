@@ -5,7 +5,7 @@ function AdminRoute() {
 
   // Retrieve user role from your authentication logic
   const user = JSON.parse(localStorage.getItem("user"));
-  const isAdmin = user && user.role === "admin";
+  const isAdmin = user && user.role === "Admin";
   return isAdmin ? <Outlet /> : <Navigate to="/signin" />;
 
 }
