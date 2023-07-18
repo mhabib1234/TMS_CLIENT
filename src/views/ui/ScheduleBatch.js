@@ -70,23 +70,8 @@ const ScheduleBatch = () => {
       ...prevFormData,
       courseName: e.target.value,
       courseId: selectedCourse ? selectedCourse.id : '',
-      batchesIds: selectedCourse.courseType === 'Common' ? [] : prevFormData.batchesIds,
+      batchesIds: selectedCourse.courseType === 'Common' ? [null] : prevFormData.batchesIds,
     }));
-  
-    if (e.target.value && e.target.value !== '') {
-      try {
-        if (selectedCourse.courseType === 'Common') {
-          const response = await axios.get('http://localhost:9080/batch/all');
-          const batchIds = response.data.map((batch) => batch.id);
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            batchesIds: batchIds,
-          }));
-        }
-      } catch (error) {
-        console.error('Error fetching batch IDs:', error);
-      }
-    }
   };
   
   
