@@ -40,7 +40,7 @@ const CreateAssignment = () => {
       formDataToSend.append('type', formData.type);
       formDataToSend.append('deadline', formData.deadline);
       formDataToSend.append('file', formData.file);
-
+      console.log(response)
       const response = await axios.post('http://localhost:9080/assignment', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',

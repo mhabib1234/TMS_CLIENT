@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button, Nav, NavItem } from "reactstrap";
 import Logo from "./Logo";
 
 const navigation = [
- 
   {
     title: "Dashboard",
     href: "/trainer/dashboard",
     icon: "bi bi-hdd-stack",
+  },
+  {
+    title: "Classroom",
+    href: "/trainer/classroom",
+    icon: "bi bi-columns",
   },
   {
     title: "Assignment",
@@ -16,7 +20,7 @@ const navigation = [
     icon: "bi bi-columns",
   },
   {
-    title: "Post", 
+    title: "Post",
     href: "/trainer/create/post",
     icon: "bi bi-card-text",
   },
@@ -27,25 +31,21 @@ const navigation = [
   }
 ];
 
-
 const TrainerSidebar = () => {
-  const showMobilemenu = () => {
-    document.getElementById("sidebarArea").classList.toggle("showSidebar");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
   };
-  let location = useLocation();
 
   return (
-    <div className="sticky-top" style={{ top: "0" }}>
+    <div className={`sticky-top ${sidebarOpen ? "sidebarOpen" : ""}`}>
       <div className="p-3">
         <div className="d-flex align-items-center">
           <Logo />
           <span className="ms-auto d-lg-none">
-            <Button
-              close
-              size="sm"
-              className="ms-auto d-lg-none"
-              onClick={() => showMobilemenu()}
-            ></Button>
+            <Button close size="sm" className="ms-auto d-lg-none" onClick={toggleSidebar}></Button>
           </span>
         </div>
         <div className="pt-4 mt-2">
@@ -82,4 +82,3 @@ const TrainerSidebar = () => {
 };
 
 export default TrainerSidebar;
-
