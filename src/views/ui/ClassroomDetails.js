@@ -3,16 +3,17 @@ import { useParams, Link } from "react-router-dom";
 import { Container, Card, CardImg, CardImgOverlay, FormGroup, Label, CardTitle, Input, Button, Row, Col } from "reactstrap";
 import Notice from "./Notice";
 import placeholderImage from "../../assets/images/bg/bg3.jpg";
+import BlogPage from "./PostNotice";
+import Feeds from "../../components/dashboard/Feeds";
 
 const ClassroomDetails = () => {
   const { classroomName } = useParams();
  
-
   return (
     <Container>
       <div className="navbar">
         <Link to="/other-page" className="navbar-link">
-          Go to Other Page
+          View All Messages & Notice
         </Link>
       </div>
       <div>
@@ -24,10 +25,20 @@ const ClassroomDetails = () => {
         </Card>
       </div>
       <div>
-         <Notice/>
-        </div>
+        <Notice/>
+      </div>
+      <Row className="mt-5">
+        <Col md={7}>
+          <BlogPage />
+        </Col>
+        <Col md={5}>
+          <Feeds />
+        </Col>
+      </Row>
     </Container>
   );
 };
 
 export default ClassroomDetails;
+
+
