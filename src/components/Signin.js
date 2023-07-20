@@ -22,13 +22,15 @@ const SignIn = () => {
         },
       });
 
+      
       const token = response.data.token;
 
       // Decode the token
       const decodedToken = jwtDecode(token);
       const role = decodedToken.roles[0].authority;
       const userEmail = decodedToken.sub;
-      const user = { role: role, userEmail: userEmail };
+      const userId = response.data.roleBasedId;
+      const user = { role: role, userEmail: userEmail , id: userId};
 
       // Store user and role in local storage
       localStorage.setItem('token', token);
