@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TraineeMessageCard from './TraineeMessageCard';
 import { Pagination, PaginationItem, PaginationLink, Input } from 'reactstrap';
+import NoticeCard from './NoticeCard';
 
-const NoticeComponent= () => {
+const NoticeComponent = ({ classroomId }) => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5); // Number of posts to display per page
@@ -12,15 +13,17 @@ const NoticeComponent= () => {
 
   // Fetch data from the API
   useEffect(() => {
+    console.log(classroomId);
     axios
-      .get('http://localhost:9080/notice')
+      .get(`http://localhost:9080/notice/classroom/${classroomId}`) // Use backticks (``) here
       .then((response) => {
+        console.log(response);
         const sortedPosts = response.data.Posts.sort((a, b) => b.createdTime - a.createdTime);
         setPosts(sortedPosts);
         setFilteredPosts(response.data.Posts);
       })
       .catch((error) => console.error('Error fetching data:', error));
-  }, []);
+  }, [classroomId]);
 
   // Function to handle pagination page change
   const handlePageChange = (pageNumber) => {
@@ -53,7 +56,7 @@ const NoticeComponent= () => {
         className="mb-3"
       />
       {currentPosts.map((post) => (
-        <TraineeMessageCard key={post.id} post={post} />
+        <NoticeCard key={post.id} post={post} />
       ))}
       <Pagination className="mt-4">
         {Array.from({ length: Math.ceil(filteredPosts.length / postsPerPage) }).map((_, index) => (

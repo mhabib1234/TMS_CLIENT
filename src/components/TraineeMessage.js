@@ -3,7 +3,7 @@ import axios from 'axios';
 import TraineeMessageCard from './TraineeMessageCard';
 import { Pagination, PaginationItem, PaginationLink, Input } from 'reactstrap';
 
-const TraineeMessage = () => {
+const TraineeMessage = ({ classroomId }) => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5); // Number of posts to display per page
@@ -12,15 +12,17 @@ const TraineeMessage = () => {
 
   // Fetch data from the API
   useEffect(() => {
+    console.log(classroomId);
     axios
-      .get('http://localhost:9080/posts')
+      .get(`http://localhost:9080/posts/classroom/${classroomId}`) // Use backticks (``) here
       .then((response) => {
+        console.log(response);
         const sortedPosts = response.data.Posts.sort((a, b) => b.createdTime - a.createdTime);
         setPosts(sortedPosts);
         setFilteredPosts(response.data.Posts);
       })
       .catch((error) => console.error('Error fetching data:', error));
-  }, []);
+  }, [classroomId]);
 
   // Function to handle pagination page change
   const handlePageChange = (pageNumber) => {

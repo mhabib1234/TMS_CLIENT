@@ -1,55 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import React from 'react';
 import { Card, CardBody, CardText, Badge } from 'reactstrap';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from 'react-modal';
+import axios from 'axios';
 
 const NoticeCard = ({ post }) => {
-  const { id, trainerId,trainerName, classroomId, title, createdTime, fileUrl } = post;
-  console.log(title)
-  const [expanded, setExpanded] = useState(false);
+  const { trainerName, title, createdTime, fileUrl, id } = post;
+  const [expanded, setExpanded] = React.useState(false);
+  const [showModal, setShowModal] = React.useState(false);
 
-  const [showModal, setShowModal] = useState(false);
-  const [comment, setComment] = useState('');
-
-  const handleAddComment = () => {
-    // Prepare the comment data
-    const commentData = {
-      comment,
-      postId: id,
-      time: new Date(),
-    };
-
-    // Make API call to add the comment
-    axios.post(`http://localhost:9080/comments/${id}`, commentData)
-      .then((response) => {
-        setShowModal(false);
-        setComment('');
-        toast.success('Comment added successfully!');
-      })
-      .catch((error) => {
-        setShowModal(false);
-        setComment('');
-        toast.error('Failed to add comment');
-      });
+  const randomColor = () => {
+    const colors = ['#f0f7da', '#e0edd5', '#d0e4d1', '#f5d0d0', '#f5e3e6'];
+    return colors[Math.floor(Math.random() * colors.length)];
   };
 
-  const handleFileDownload = () => {
-    axios.get(`http://localhost:9080/posts/${id}/download`)
-      .then((response) => {
-     //   toast.success('File downloaded');
-      })
-      .catch(() => {
-    //    toast.error('Error downloading file');
-      });
-  }
+
 
   const formatTimestamp = (timestamp) => {
     const currentTime = new Date().getTime();
     const diffInSeconds = Math.floor((currentTime - timestamp) / 1000);
-  
+
     if (diffInSeconds < 0) {
       return 'Just now';
     } else if (diffInSeconds < 60) {
@@ -71,10 +42,28 @@ const NoticeCard = ({ post }) => {
       return `${years} year${years === 1 ? '' : 's'} ago`;
     }
   };
-  
+
+
+  const handleFileDownload = () => {
+    axios.get(`http://localhost:9080/notice/${id}/download`)
+      .then((response) => {
+     //   toast.success('File downloaded');
+      })
+      .catch(() => {
+    //    toast.error('Error downloading file');
+      });
+  }
+
+  const handleModalOpen = () => {
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
 
   const renderTitle = () => {
-    const maxWords = 20;
+    const maxWords = 10;
     const words = (title ?? '').split(' ');
 
     if (words.length <= maxWords || expanded) {
@@ -91,31 +80,22 @@ const NoticeCard = ({ post }) => {
       );
     }
   };
+  
   return (
     <>
-     <ToastContainer/>
-      <Card className="mb-3" style={{ fontSize: '13px', padding: '8px' }}>
+      <ToastContainer />
+      <Card className="mb-3" style={{ fontSize: '13px', padding: '8px', backgroundColor: randomColor(), display: 'flex', flexDirection: 'column' }}>
         <CardBody className="p-2 d-flex justify-content-between align-items-center">
-          <div className="text-muted">Author: {trainerName}</div>
-          <Badge color="info" className="font-weight-bold">{formatTimestamp(createdTime)}</Badge>
+          <div className="text-muted">Sender: {trainerName}</div>
+          <Badge color="info" className="font-weight-bold">
+            {formatTimestamp(createdTime)}
+          </Badge>
         </CardBody>
         <CardBody className="p-2">
-          <CardText className="font-weight-bold">{renderTitle()}</CardText>
-        </CardBody>
-        <CardBody className="p-2">
-          <div className="d-flex justify-content-between align-items-center">
-            <div>
-              <Badge color="secondary">
-                  <button
-                    className="btn btn-link p-0 small no-bg"
-                    style={{ textDecoration: 'none', fontSize: '8px' }}
-                    onClick={() => setShowModal(true)}
-                  >
-                    Add Comment
-                  </button>
-                
-              </Badge>
-            </div>
+          <div className="d-flex justify-content-between">
+            <CardText className="font-weight-bold" onClick={handleModalOpen} style={{ cursor: 'pointer' }}>
+              {renderTitle()}
+            </CardText>
             {fileUrl && (
               <div>
                 <a href={fileUrl} target="_blank" rel="noopener noreferrer" onClick={handleFileDownload} className="font-weight-bold">
@@ -126,38 +106,28 @@ const NoticeCard = ({ post }) => {
           </div>
         </CardBody>
       </Card>
-      <Modal
-        isOpen={showModal}
-        onRequestClose={() => setShowModal(false)}
-        style={{
-          overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          },
-          content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            borderRadius: '5px',
-            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
-            border: '1px solid #ccc',
-          },
-        }}
-      >
-        <h4>Add Comment</h4>
+      <Modal isOpen={showModal} onRequestClose={handleModalClose} style={{
+        overlay: {
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        },
+        content: {
+          width: '300px',
+          height: '150px',
+          margin: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#fff',
+        }
+      }}>
         <div>
-          <textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="Enter your comment..."
-            style={{ width: '100%', height: '100px', padding: '5px' }}
-          />
-        </div>
-        <div style={{ textAlign: 'right', marginTop: '10px' }}>
-          <button onClick={handleAddComment} className="btn btn-primary">Submit</button>
-          <button onClick={() => setShowModal(false)} className="btn btn-secondary" style={{ marginLeft: '5px' }}>Cancel</button>
+          <h5 className="font-weight-bold mb-3">Notice Title</h5>
+          <p>{title}</p>
+          <button className="btn btn-secondary" onClick={handleModalClose}>Close</button>
         </div>
       </Modal>
     </>
