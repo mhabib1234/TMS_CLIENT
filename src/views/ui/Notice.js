@@ -25,7 +25,7 @@ const Notice = () => {
         formDataToSend.append('file', formData.file);
       }
   
-      formDataToSend.append('classroomId', '1');
+      formDataToSend.append('classroomId', '2');
       formDataToSend.append('trainerId', '1');
       console.log(formDataToSend)
 

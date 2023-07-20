@@ -2,9 +2,52 @@ import React, { useEffect, useState } from "react";
 import ClassroomCard from "../../components/ClassroomCard";
 import bg1 from '../../assets/images/bg/bg1.jpg';
 import bg2 from '../../assets/images/bg/bg2.jpg';
+import axios from "axios";
 
 const Classroom = () => {
   const [classrooms, setClassrooms] = useState([]);
+  const [userData, setUserData] = useState(null);
+  const [classId, setClassId] = useState(null);
+  const [classIds, setClassIds] = useState([])
+  const [loading, setLoading] = useState(true);
+  
+  // Fetch user data from localStorage when the component mounts
+  useEffect(() => {
+    const userDataString = localStorage.getItem("user");
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      setUserData(userData);
+    }
+  }, []);
+
+  // Make API call when userData is set or updated
+  useEffect(() => {
+    const fetchClassIds = async () => {
+      if (userData) {
+        const { role, id } = userData;
+
+        try {
+          if (role === "Trainee") {
+            const response = await axios.get(`http://localhost:9080/trainee/classroom/${id}`);
+            setClassId(response.data); // Set classIds with the array data received from the API
+          } else if (role === "Trainer") {
+            const response = await axios.get(`http://localhost:9080/trainer/classroom/${id}`);
+            setClassIds(response.data); // Set classIds with the array data received from the API
+            console.log(classIds)
+            console.log(response)
+          } else {
+            console.error("Invalid role:", role);
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchClassIds();
+  }, [userData]);
 
   useEffect(() => {
     const fetchClassrooms = async () => {
@@ -23,19 +66,30 @@ const Classroom = () => {
           image: classroom.id === 1 ? bg1 : bg2,
         }));
 
-        setClassrooms(mappedClassrooms);
+        // Filter classrooms based on matching IDs in classIds state
+        const filteredClassrooms = mappedClassrooms.filter((classroom) =>
+          classIds.includes(classroom.id)
+        );
+
+        const classroomWithIds = filteredClassrooms.map((classroom) => ({
+          ...classroom,
+          classroomId: classroom.id,
+        }));
+
+        setClassrooms(filteredClassrooms);
       } catch (error) {
         console.error("Failed to fetch classrooms:", error);
       }
     };
 
+    // Fetch classrooms only when classIds state is updated (dependency)
     fetchClassrooms();
-  }, []);
+  }, [classIds]); 
 
   return (
     <div>
       <h1>Classrooms</h1>
-      <ClassroomCard classrooms={classrooms} />
+      <ClassroomCard classrooms={classrooms}/>
     </div>
   );
 };

@@ -11,7 +11,12 @@ const ClassroomCard = ({ classrooms }) => {
             <CardImg top src={classroom.image} alt={classroom.name} />
             <CardBody>
               <CardTitle tag="h5">{classroom.name}</CardTitle>
-              <Link to={`/trainer/classroom/${classroom.name}`}>
+              {/* Include the classroomId as a prop in the state */}
+              <Link
+                to={{
+                  pathname: `/trainer/classroom/${classroom.name}`,
+                }}
+              >
                 <Button color="primary">Enter Classroom</Button>
               </Link>
             </CardBody>
