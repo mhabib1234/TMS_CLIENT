@@ -16,7 +16,6 @@ import TrainerLayout from './layouts/TrainerLayout';
 import TrainerRegister from './views/ui/TrainerRegister';
 import TraineeRegister from './views/ui/TraineeRegister';
 import Course from './views/ui/Course';
-import Assignment from './views/ui/Assignment';
 import TraineeStarter from './views/TraineeStarter';
 import Post from './views/ui/Post';
 import Notice from './views/ui/Notice';
@@ -24,6 +23,10 @@ import Classroom from './views/ui/Classroom';
 import ClassroomDetails from './views/ui/ClassroomDetails';
 import TraineeClassroom from './views/ui/TraineeClassroom';
 import SubmitAssignment from './views/ui/SubmitAssignment';
+import Assignment from './views/ui/Assignment';
+
+
+
 
 // Lazy-loaded components
 const Starter = lazy(() => import('./views/Starter'));
@@ -64,7 +67,6 @@ function App() {
               <Route path="/trainer/classroom/:classroomName" element ={<ClassroomDetails/>}/>
               <Route path="/trainer/create/assignment" element={<Assignment/>} />
               <Route path="/trainer/create/post" element={<Post/>} />
-              <Route path="/trainer/create/notice" element={<Notice/>} />
             </Route>
           </Route>
 

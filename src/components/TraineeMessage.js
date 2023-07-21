@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TraineeMessageCard from './TraineeMessageCard';
@@ -10,13 +11,12 @@ const TraineeMessage = ({ classroomId }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredPosts, setFilteredPosts] = useState([]);
 
+  
   // Fetch data from the API
   useEffect(() => {
-    console.log(classroomId);
     axios
       .get(`http://localhost:9080/posts/classroom/${classroomId}`) // Use backticks (``) here
       .then((response) => {
-        console.log(response);
         const sortedPosts = response.data.Posts.sort((a, b) => b.createdTime - a.createdTime);
         setPosts(sortedPosts);
         setFilteredPosts(response.data.Posts);

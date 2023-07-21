@@ -8,11 +8,17 @@ import Modal from 'react-modal';
 
 const TraineeMessageCard = ({ post }) => {
   const { id, trainerId,trainerName, classroomId, title, createdTime, fileUrl } = post;
-  console.log(title)
   const [expanded, setExpanded] = useState(false);
-
   const [showModal, setShowModal] = useState(false);
   const [comment, setComment] = useState('');
+  const [user, setUser] = useState(null); 
+
+  // Fetch user data from localStorage when the component mounts
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    setUser(userData);
+  }, []);
+  
 
   const handleAddComment = () => {
     // Prepare the comment data
@@ -20,6 +26,7 @@ const TraineeMessageCard = ({ post }) => {
       comment,
       postId: id,
       time: new Date(),
+      traineeId: user.id,
     };
 
     // Make API call to add the comment

@@ -46,7 +46,7 @@ const navigation = [
   },
   {
     title: "Assignment",
-    href: "/admin/create/assignment",
+    href: "/admin/create",
     icon: "bi bi-columns",
   }
 ];

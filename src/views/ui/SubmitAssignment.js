@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Table, Button, Modal, ModalHeader, ModalBody, FormGroup, Label, Input } from "reactstrap";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SubmitAssignment = () => {
   const [assignments, setAssignments] = useState([]);
@@ -9,17 +11,57 @@ const SubmitAssignment = () => {
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("");
 
-  useEffect(() => {
-    // Make API call to fetch assignments
-    axios
-      .get("http://localhost:9080/assignment/all")
-      .then((response) => {
-        setAssignments(response.data.Assignments);
-      })
-      .catch((error) => {
-        console.error("Error fetching assignments:", error);
-      });
-  }, []);
+   // State to store the user data
+   const [userData, setUserData] = useState(null);
+   const [classId, setClassId] = useState(null);
+   const [loading, setLoading] = useState(true);
+ 
+   // Fetch user data from localStorage when the component mounts
+   useEffect(() => {
+     const userDataString = localStorage.getItem("user");
+     if (userDataString) {
+       const userData = JSON.parse(userDataString);
+       setUserData(userData);
+     }
+   }, []);
+ 
+   // Make API call when userData is set or updated
+   useEffect(() => {
+    if (userData) {
+      const { role, id } = userData;
+
+      if (role === "Trainee") {
+        // If the role is Trainee, make the API call for Trainee
+        axios
+          .get(`http://localhost:9080/trainee/classroom/${id}`)
+          .then((response) => {
+            const classId = response.data;
+            setClassId(classId);
+            // Fetch assignments based on the class ID
+            axios
+              .get("http://localhost:9080/assignment/all")
+              .then((response) => {
+                const filteredAssignments = response.data.Assignments.filter((assignment) =>
+                  assignment.batches.includes(classId)
+                );
+                setAssignments(filteredAssignments);
+                setLoading(false);
+              })
+              .catch((error) => {
+                console.error("Error fetching assignments:", error);
+                setLoading(false);
+              });
+          })
+          .catch((error) => {
+            console.error("Error fetching Trainee data:", error);
+            setLoading(false);
+          });
+      } else {
+        console.error("Invalid role:", role);
+        setLoading(false);
+      }
+    }
+  }, [userData]);
 
   const handleOpenModal = (assignment) => {
     setSelectedAssignment(assignment);
@@ -32,13 +74,10 @@ const SubmitAssignment = () => {
     setFileName(selectedFile.name);
   };
 
+
   const handleSubmit = () => {
     const formData = new FormData();
-    formData.append("assignmentId", selectedAssignment.id);
     formData.append("traineeId", 1); // Replace 1 with the actual traineeId
-    formData.append("time", new Date().toISOString());
-
-    // Append the file to the formData
     if (file) {
       formData.append("file", file);
     }
@@ -48,55 +87,69 @@ const SubmitAssignment = () => {
       .post(`http://localhost:9080/submit-assignment/${selectedAssignment.id}`, formData)
       .then((response) => {
         // Handle success
-        console.log("Assignment submitted successfully!");
+        toast.success("Assignment submitted successfully!");
       })
       .catch((error) => {
         // Handle error
-        console.error("Error submitting assignment:", error);
+        toast.error("Error submitting assignment: " + error.message);
       });
 
     // Close the modal after submission
     setModalOpen(false);
   };
 
+  const handleDownloadLinkClick = (assignmentId) => {
+      axios
+        .get(`http://localhost:9080/assignment/${assignmentId}/download`)
+        .then((response) => {
+          toast.success("File downloaded successfully!");
+        })
+        .catch((error) => {
+          console.error("Error downloading file:", error);
+          toast.error("Error downloading file: " + error.message);
+        });
+    } 
+  
 
   return (
-    <Container>
+    <Container fluid>
       <h1>Assignment List</h1>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Deadline</th>
-            <th>File</th>
-            <th>Schedule Name</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {assignments.map((assignment) => (
-            <tr key={assignment.id}>
-              <td>{assignment.name}</td>
-              <td>{assignment.type}</td>
-              <td>{new Date(assignment.deadline).toLocaleDateString()}</td>
-              <td>
-                <a href={assignment.fileUrl} target="_blank" rel="noopener noreferrer">
-                  Download
-                </a>
-              </td>
-              <td>{assignment.scheduleName}</td>
-              <td>
-                <Button color="primary" onClick={() => handleOpenModal(assignment)}>
-                  Submit Assignment
-                </Button>
-              </td>
+      <div className="table-responsive">
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Deadline</th>
+              <th>File</th>
+              <th>Schedule Name</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {assignments.map((assignment) => (
+              <tr key={assignment.id}>
+                <td>{assignment.name}</td>
+                <td>{assignment.type}</td>
+                <td>{new Date(assignment.deadline).toLocaleDateString()}</td>
+                <td>
+                  <a href={assignment.fileUrl} target="_blank"   onClick={() => handleDownloadLinkClick(assignment.id)} rel="noopener noreferrer">
+                    Download
+                  </a>
+                </td>
+                <td>{assignment.scheduleName}</td>
+                <td>
+                  <Button color="primary" onClick={() => handleOpenModal(assignment)}>
+                    Submit Assignment
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
 
-      <Modal isOpen={modalOpen} toggle={() => setModalOpen(false)}>
+      <Modal isOpen={modalOpen} toggle={() => setModalOpen(false)} size="lg">
         <ModalHeader toggle={() => setModalOpen(false)}>Submit Assignment - {selectedAssignment && selectedAssignment.name}</ModalHeader>
         <ModalBody>
           <Container>
@@ -110,6 +163,8 @@ const SubmitAssignment = () => {
           </Container>
         </ModalBody>
       </Modal>
+
+      <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={true} />
     </Container>
   );
 };

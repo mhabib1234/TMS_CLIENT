@@ -1,21 +1,21 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TraineeMessageCard from './TraineeMessageCard';
 import { Pagination, PaginationItem, PaginationLink, Input } from 'reactstrap';
-import NoticeCard from './NoticeCard';
+import TrainerMessageCard from './TrainerMessageCard';
 
-const NoticeComponent = ({ classroomId }) => {
-
+const TrainerMessage = ({ classroomId }) => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5); // Number of posts to display per page
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredPosts, setFilteredPosts] = useState([]);
 
+  
   // Fetch data from the API
   useEffect(() => {
     axios
-      .get(`http://localhost:9080/notice/classroom/${classroomId}`) // Use backticks (``) here
+      .get(`http://localhost:9080/posts/classroom/${classroomId}`) 
       .then((response) => {
         const sortedPosts = response.data.Posts.sort((a, b) => b.createdTime - a.createdTime);
         setPosts(sortedPosts);
@@ -55,7 +55,7 @@ const NoticeComponent = ({ classroomId }) => {
         className="mb-3"
       />
       {currentPosts.map((post) => (
-        <NoticeCard key={post.id} post={post} />
+        <TrainerMessageCard key={post.id} post={post} />
       ))}
       <Pagination className="mt-4">
         {Array.from({ length: Math.ceil(filteredPosts.length / postsPerPage) }).map((_, index) => (
@@ -68,4 +68,4 @@ const NoticeComponent = ({ classroomId }) => {
   );
 };
 
-export default NoticeComponent;
+export default TrainerMessage;

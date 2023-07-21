@@ -1,33 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Container, Card, CardImg, CardImgOverlay, FormGroup, Label, CardTitle, Input, Button, Row, Col } from "reactstrap";
-import Notice from "./Notice";
+import { Container, Card, CardImg, CardImgOverlay, CardTitle, Row, Col } from "reactstrap";
 import placeholderImage from "../../assets/images/bg/bg3.jpg";
-import BlogPage from "./PostNotice";
 import NoticeComponent from "../../components/NoticeComponent";
 import axios from "axios";
-import ClassroomCard from "../../components/ClassroomCard";
-
+import TrainerMessage from "../../components/TrainerMessage";
 
 const ClassroomDetails = () => {
   const { classroomName } = useParams();
+  const [classId, setClassId] = useState(null);
+  const [loading, setLoading] = useState(true);
   
-  const [classroomId, setClassroomId] = useState(null);
-
   useEffect(() => {
     // Make the API call to fetch the classroomId using the classroomName
     axios
       .get(`http://localhost:9080/classroom/${classroomName}`)
       .then((response) => {
         // Assuming the response.data contains the classroomId
-        setClassroomId(response.data.classroomId);
-        console.log(response.data)
+       
+        setClassId(response.data);
+      
+        setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching classroomId:", error);
+      //  console.error("Error fetching classroomId:", error);
+        setLoading(false);
       });
-  }, [classroomName]); //
-
+  }, [classroomName]);
   return (
     <Container>
       <div className="navbar">
@@ -43,15 +42,12 @@ const ClassroomDetails = () => {
           </CardImgOverlay>
         </Card>
       </div>
- <div>
-        <Notice/>
-      </div>
       <Row className="mt-5">
         <Col md={7}>
-          <BlogPage />
+        { classId !== null && <TrainerMessage classroomId={classId} />}
         </Col>
         <Col md={5}>
-        <NoticeComponent classroomId={2} />
+          {classId !== null && <NoticeComponent classroomId={classId} />}
         </Col>
       </Row>
     </Container>

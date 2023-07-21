@@ -4,7 +4,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const CreateAssignment = () => {
+const Assignment = () => {
   const [formData, setFormData] = useState({
     scheduleId: '',
     name: '',
@@ -39,8 +39,11 @@ const CreateAssignment = () => {
       formDataToSend.append('name', formData.name);
       formDataToSend.append('type', formData.type);
       formDataToSend.append('deadline', formData.deadline);
-      formDataToSend.append('file', formData.file);
-      console.log(response)
+      if (formData.file !== null) {
+        formDataToSend.append('file', formData.file);
+      }
+  
+    //  console.log(formDataToSend)
       const response = await axios.post('http://localhost:9080/assignment', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -73,7 +76,7 @@ const CreateAssignment = () => {
     const file = e.target.files[0];
     setFormData((prevFormData) => ({
       ...prevFormData,
-      file: file,
+      file: file || null,
     }));
   };
 
@@ -166,7 +169,7 @@ const CreateAssignment = () => {
                   File
                 </Label>
                 <Col sm={8}>
-                  <Input type="file" id="file" name="file" onChange={handleFileChange} required />
+                  <Input type="file" id="file" name="file" onChange={handleFileChange} />
                 </Col>
               </FormGroup>
 
@@ -182,4 +185,4 @@ const CreateAssignment = () => {
   );
 };
 
-export default CreateAssignment;
+export default Assignment;
