@@ -2,31 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
+import { useParams } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Assignment = () => {
+const AssignmentUpdate = () => {
+ const { assignmentNumber } = useParams();
   const [formData, setFormData] = useState({
     scheduleId: '',
     name: '',
     type: '',
     deadline: '',
-    trainerId: '',
     file: null,
   });
   const [scheduleList, setScheduleList] = useState([]);
-  const [userData, setUserData] = useState(null);
-  
 
   useEffect(() => {
     fetchSchedules();
-  }, []);
-
-  useEffect(() => {
-    const userDataString = localStorage.getItem("user");
-    if (userDataString) {
-      const userData = JSON.parse(userDataString);
-      setUserData(userData);
-    }
   }, []);
 
   const fetchSchedules = async () => {
@@ -44,19 +35,24 @@ const Assignment = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    if (!assignmentNumber) {
+    // Assignment number is not available yet, return early or show loading
+    console.log('Assignment number is not available yet.');
+    return;
+  }
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('scheduleId', formData.scheduleId);
       formDataToSend.append('name', formData.name);
       formDataToSend.append('type', formData.type);
       formDataToSend.append('deadline', formData.deadline);
-      formDataToSend.append('trainerId', userData.id )
       if (formData.file !== null) {
         formDataToSend.append('file', formData.file);
       }
   
     //  console.log(formDataToSend)
-      const response = await axios.post('http://localhost:9080/assignment', formDataToSend, {
+    console.log(assignmentNumber)
+    const response = await axios.put(`http://localhost:9080/assignment/${assignmentNumber}`, formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -98,7 +94,7 @@ const Assignment = () => {
         <Row className="justify-content-center align-items-center mt-2" style={{ minHeight: '75vh' }}>
           <Col md={6}>
             <Form onSubmit={handleFormSubmit}>
-              <h2 className="text-center mb-4">Create Assignment</h2>
+              <h2 className="text-center mb-4">Update Assignment</h2>
               <FormGroup row>
                 <Label for="scheduleId" sm={4}>
                   Schedule Name
@@ -186,7 +182,7 @@ const Assignment = () => {
               </FormGroup>
 
               <Button color="primary" type="submit" block>
-                Create Assignment
+                Update Assignment
               </Button>
             </Form>
           </Col>
@@ -197,4 +193,4 @@ const Assignment = () => {
   );
 };
 
-export default Assignment;
+export default AssignmentUpdate;

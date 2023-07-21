@@ -16,7 +16,7 @@ const navigation = [
   },
   {
     title: "Assignment",
-    href: "/trainer/create/assignment",
+    href: "/trainer/assignment-list",
     icon: "bi bi-columns",
   },
   {

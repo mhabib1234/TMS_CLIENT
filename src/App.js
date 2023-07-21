@@ -24,6 +24,8 @@ import ClassroomDetails from './views/ui/ClassroomDetails';
 import TraineeClassroom from './views/ui/TraineeClassroom';
 import SubmitAssignment from './views/ui/SubmitAssignment';
 import Assignment from './views/ui/Assignment';
+import AllAssignmentList from './views/ui/AllAssignmentList';
+import AssignmentUpdate from './views/ui/AssignmentUpdate';
 
 
 
@@ -65,7 +67,10 @@ function App() {
               <Route path="/trainer/dashboard" element={<Buttons />} />
               <Route path="/trainer/classroom" element ={<Classroom/>}/>
               <Route path="/trainer/classroom/:classroomName" element ={<ClassroomDetails/>}/>
+              <Route path="/trainer/assignment-list" element ={<AllAssignmentList/>}/>
               <Route path="/trainer/create/assignment" element={<Assignment/>} />
+              <Route path="/trainer/view/submitted_assignment" element={<SubmitAssignment/>} />
+              <Route path="/trainer/update/assignment/:assignmentId" element={<AssignmentUpdate/>} />
               <Route path="/trainer/create/post" element={<Post/>} />
             </Route>
           </Route>
