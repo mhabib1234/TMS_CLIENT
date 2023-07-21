@@ -23,6 +23,7 @@ import Notice from './views/ui/Notice';
 import Classroom from './views/ui/Classroom';
 import ClassroomDetails from './views/ui/ClassroomDetails';
 import TraineeClassroom from './views/ui/TraineeClassroom';
+import SubmitAssignment from './views/ui/SubmitAssignment';
 
 // Lazy-loaded components
 const Starter = lazy(() => import('./views/Starter'));
@@ -52,6 +53,7 @@ function App() {
             <Route path="trainee" element={<TraineeLayout />}>
               <Route path="/trainee/dashboard" element={<TraineeStarter />} />
               <Route path="/trainee/classroom" element={<TraineeClassroom/>} />
+              <Route path ="/trainee/submit-assignment" element={<SubmitAssignment/>} />
             </Route>
           </Route>
 
