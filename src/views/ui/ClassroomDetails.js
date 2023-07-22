@@ -30,11 +30,6 @@ const ClassroomDetails = () => {
   }, [classroomName]);
   return (
     <Container>
-      <div className="navbar">
-        <Link to="/other-page" className="navbar-link">
-          View All Messages & Notice
-        </Link>
-      </div>
       <div>
         <Card inverse>
           <CardImg alt="Card image cap" src={placeholderImage} style={{ height: 170 }} width="100%" />
@@ -43,7 +38,9 @@ const ClassroomDetails = () => {
           </CardImgOverlay>
         </Card>
       </div>
-      <Notice/>
+      <div>
+      { classId !== null && <Notice classroomId={classId} />}
+      </div>
       <Row className="mt-5">
         <Col md={7}>
         { classId !== null && <TrainerMessage classroomId={classId} />}

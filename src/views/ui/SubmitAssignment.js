@@ -38,7 +38,7 @@ const SubmitAssignment = () => {
             const classId = response.data;
             setClassId(classId);
             // Fetch assignments based on the class ID
-            axios
+           axios
               .get("http://localhost:9080/assignment/all")
               .then((response) => {
                 const filteredAssignments = response.data.Assignments.filter((assignment) =>
@@ -77,7 +77,7 @@ const SubmitAssignment = () => {
 
   const handleSubmit = () => {
     const formData = new FormData();
-    formData.append("traineeId", 1); // Replace 1 with the actual traineeId
+    formData.append("traineeId", userData.id); 
     if (file) {
       formData.append("file", file);
     }
@@ -111,62 +111,64 @@ const SubmitAssignment = () => {
     } 
   
 
-  return (
-    <Container fluid>
-      <h1>Assignment List</h1>
-      <div className="table-responsive">
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Deadline</th>
-              <th>File</th>
-              <th>Schedule Name</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {assignments.map((assignment) => (
-              <tr key={assignment.id}>
-                <td>{assignment.name}</td>
-                <td>{assignment.type}</td>
-                <td>{new Date(assignment.deadline).toLocaleDateString()}</td>
-                <td>
-                  <a href={assignment.fileUrl} target="_blank"   onClick={() => handleDownloadLinkClick(assignment.id)} rel="noopener noreferrer">
-                    Download
-                  </a>
-                </td>
-                <td>{assignment.scheduleName}</td>
-                <td>
-                  <Button color="primary" onClick={() => handleOpenModal(assignment)}>
-                    Submit Assignment
-                  </Button>
-                </td>
+    return (
+      <Container fluid>
+        <h1>Assignment List</h1>
+        <div className="table-responsive">
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Deadline</th>
+                <th>File</th>
+                <th>Course Name</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
-      </div>
-
-      <Modal isOpen={modalOpen} toggle={() => setModalOpen(false)} size="lg">
-        <ModalHeader toggle={() => setModalOpen(false)}>Submit Assignment - {selectedAssignment && selectedAssignment.name}</ModalHeader>
-        <ModalBody>
-          <Container>
-            <FormGroup>
-              <Label for="file">Upload File:</Label>
-              <Input type="file" name="file" id="file" onChange={handleFileChange} />
-            </FormGroup>
-            <Button color="primary" onClick={handleSubmit}>
-              Upload
-            </Button>
-          </Container>
-        </ModalBody>
-      </Modal>
-
-      <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={true} />
-    </Container>
-  );
+            </thead>
+            <tbody>
+              {assignments.map((assignment) => (
+                <tr key={assignment.id}>
+                  <td>{assignment.name}</td>
+                  <td>{assignment.description}</td>
+                  <td>{assignment.type}</td>
+                  <td>{new Date(assignment.deadline).toLocaleDateString()}</td>
+                  <td>
+                    <a href={assignment.fileUrl} target="_blank" onClick={() => handleDownloadLinkClick(assignment.id)} rel="noopener noreferrer">
+                      Download
+                    </a>
+                  </td>
+                  <td>{assignment.scheduleName}</td>
+                  <td>
+                    <Button color="primary" onClick={() => handleOpenModal(assignment)}>
+                      Submit Assignment
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+    
+        <Modal isOpen={modalOpen} toggle={() => setModalOpen(false)} size="lg">
+          <ModalHeader toggle={() => setModalOpen(false)}>Submit Assignment - {selectedAssignment && selectedAssignment.name}</ModalHeader>
+          <ModalBody>
+            <Container>
+              <FormGroup>
+                <Label for="file">Upload File:</Label>
+                <Input type="file" name="file" id="file" onChange={handleFileChange} />
+              </FormGroup>
+              <Button color="primary" onClick={handleSubmit}>
+                Upload
+              </Button>
+            </Container>
+          </ModalBody>
+        </Modal>
+    
+        <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={true} />
+      </Container>
+    );    
 };
 
 export default SubmitAssignment;

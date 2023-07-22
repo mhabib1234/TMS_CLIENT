@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TraineeMessageCard from './TraineeMessageCard';
-import { Pagination, PaginationItem, PaginationLink, Input } from 'reactstrap';
 import NoticeCard from './NoticeCard';
+import { Pagination, PaginationItem, PaginationLink, Input } from 'reactstrap';
 
 const NoticeComponent = ({ classroomId }) => {
-
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5); // Number of posts to display per page
@@ -15,7 +13,7 @@ const NoticeComponent = ({ classroomId }) => {
   // Fetch data from the API
   useEffect(() => {
     axios
-      .get(`http://localhost:9080/notice/classroom/${classroomId}`) // Use backticks (``) here
+      .get(`http://localhost:9080/notice/classroom/${classroomId}`)
       .then((response) => {
         const sortedPosts = response.data.Posts.sort((a, b) => b.createdTime - a.createdTime);
         setPosts(sortedPosts);
@@ -32,11 +30,16 @@ const NoticeComponent = ({ classroomId }) => {
   // Function to handle search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-
+  
     // Filter posts based on search term
-    const filteredPosts = posts.filter((post) =>
-      post.title && post.title.toLowerCase().includes(e.target.value.toLowerCase())
-    );
+    const filteredPosts = posts.filter((post) => {
+      const titleMatch = post.title && post.title.toLowerCase().includes(e.target.value.toLowerCase());
+      const senderMatch = post.trainerName && post.trainerName.toLowerCase().includes(e.target.value.toLowerCase());
+      const fileMatch = e.target.value.toLowerCase() === 'file' ? post.fileUrl !== null : false;
+  
+      return titleMatch || senderMatch || fileMatch;
+    });
+  
     setFilteredPosts(filteredPosts);
   };
 
@@ -49,7 +52,7 @@ const NoticeComponent = ({ classroomId }) => {
     <div>
       <Input
         type="text"
-        placeholder="Search by title..."
+        placeholder="Search by title, sender......."
         value={searchTerm}
         onChange={handleSearchChange}
         className="mb-3"

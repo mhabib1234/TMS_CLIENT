@@ -166,6 +166,7 @@ const AllAssignmentList = () => {
                       <CardBody>
                         <p className="mb-0">Trainee ID: {submission.traineeId}</p>
                         <p className="mb-0">Trainee Name: {submission.traineeName}</p>
+                        <p className="mb-0">Submission Status: {submission.submittedStatus}</p>
                         <p className="mb-0">Submitted Time: {new Date(submission.createdTime).toLocaleString()}</p>
                         <p className="mb-0">
                           File URL:{' '}

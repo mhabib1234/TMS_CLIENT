@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, FormGroup, Input, Button, Alert } from 'reactstrap';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Notice = () => {
+const Notice = ({ classroomId }) => {
   const [formData, setFormData] = useState({
     type: 'Message',
     title: '',
     file: null,
   });
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const userDataString = localStorage.getItem('user');
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      setUser(userData);
+    }
+  }, []);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -20,16 +30,17 @@ const Notice = () => {
       if (formData.title) {
         formDataToSend.append('title', formData.title);
       }
-  
+
       if (formData.file !== null) {
         formDataToSend.append('file', formData.file);
       }
-  
-      formDataToSend.append('classroomId', '2');
-      formDataToSend.append('trainerId', '1');
-      console.log(formDataToSend)
 
-      const response = await axios.post('http://localhost:9080/notice', formDataToSend, {
+      formDataToSend.append('classroomId', classroomId);
+      formDataToSend.append('trainerId', user.id);
+      console.log(formDataToSend);
+
+      const endpoint = formData.type === 'Message' ? 'posts' : 'notice';
+      const response = await axios.post(`http://localhost:9080/${endpoint}`, formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -70,52 +81,52 @@ const Notice = () => {
   };
 
   return (
-    <div >
-        <Row className="justify-content-center align-items-center ">
-          <Col md={12}>
-            <Form onSubmit={handleFormSubmit}>
-              <Row>
-                <Col md={2}>
-                  <FormGroup>
-                    <Input
-                      type="select"
-                      name="type"
-                      value={formData.type}
-                      onChange={handleInputChange}
-                    >
-                      <option value="Message">Message</option>
-                      <option value="Notice">Notice</option>
-                    </Input>
-                  </FormGroup>
-                </Col>
-                <Col md={6}>
-                  <FormGroup>
-                    <Input
-                      type="text"
-                      name="title"
-                      value={formData.title}
-                      onChange={handleInputChange}
-                      placeholder="Announce something to your class"
-                      required
-                    />
-                  </FormGroup>
-                </Col>
-                <Col md={4}>
-                  <FormGroup>
-                    <Input type="file" name="file" onChange={handleFileChange} />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row className="justify-content-end">
-                <Col md={2} >
-                  <Button color="primary" type="submit" block>
-                    Post
-                  </Button>
-                </Col>
-              </Row>
-            </Form>
-          </Col>
-        </Row>
+    <div>
+      <Row className="justify-content-center align-items-center ">
+        <Col md={12}>
+          <Form onSubmit={handleFormSubmit}>
+            <Row>
+              <Col md={2}>
+                <FormGroup>
+                  <Input
+                    type="select"
+                    name="type"
+                    value={formData.type}
+                    onChange={handleInputChange}
+                  >
+                    <option value="Message">Message</option>
+                    <option value="Notice">Notice</option>
+                  </Input>
+                </FormGroup>
+              </Col>
+              <Col md={6}>
+                <FormGroup>
+                  <Input
+                    type="text"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    placeholder="Announce something to your class"
+                    required
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup>
+                  <Input type="file" name="file" onChange={handleFileChange} />
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row className="justify-content-end">
+              <Col md={2}>
+                <Button color="primary" type="submit" block>
+                  Post
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Col>
+      </Row>
       <ToastContainer />
     </div>
   );

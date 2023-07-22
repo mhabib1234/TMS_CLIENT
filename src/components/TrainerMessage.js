@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Pagination, PaginationItem, PaginationLink, Input } from 'reactstrap';
@@ -11,11 +10,10 @@ const TrainerMessage = ({ classroomId }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredPosts, setFilteredPosts] = useState([]);
 
-  
   // Fetch data from the API
   useEffect(() => {
     axios
-      .get(`http://localhost:9080/posts/classroom/${classroomId}`) 
+      .get(`http://localhost:9080/posts/classroom/${classroomId}`)
       .then((response) => {
         const sortedPosts = response.data.Posts.sort((a, b) => b.createdTime - a.createdTime);
         setPosts(sortedPosts);
@@ -34,9 +32,14 @@ const TrainerMessage = ({ classroomId }) => {
     setSearchTerm(e.target.value);
 
     // Filter posts based on search term
-    const filteredPosts = posts.filter((post) =>
-      post.title && post.title.toLowerCase().includes(e.target.value.toLowerCase())
-    );
+    const filteredPosts = posts.filter((post) => {
+      const titleMatch = post.title && post.title.toLowerCase().includes(e.target.value.toLowerCase());
+      const authorMatch = post.trainerName && post.trainerName.toLowerCase().includes(e.target.value.toLowerCase());
+      const fileMatch = e.target.value.toLowerCase() === 'file' ? post.fileUrl !== null : false;
+
+      return titleMatch || authorMatch || fileMatch;
+    });
+
     setFilteredPosts(filteredPosts);
   };
 
@@ -49,7 +52,7 @@ const TrainerMessage = ({ classroomId }) => {
     <div>
       <Input
         type="text"
-        placeholder="Search by title..."
+        placeholder="Search by title, author ..."
         value={searchTerm}
         onChange={handleSearchChange}
         className="mb-3"
