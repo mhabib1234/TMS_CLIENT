@@ -83,9 +83,9 @@ const AssignTrainee = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#f8f9fa', minHeight: '100vh', marginBottom: '150px' }}>
+    <div style={{ backgroundColor: '#f8f9fa', minHeight: '20vh', marginBottom: '150px' }}>
       <Container>
-        <Row className="justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <Row className="justify-content-center align-items-center" style={{ minHeight: '55vh' }}>
           <Col md={6}>
             <Form onSubmit={handleFormSubmit}>
               <h2 className="text-center mb-4">Assign Trainees to Batch</h2>

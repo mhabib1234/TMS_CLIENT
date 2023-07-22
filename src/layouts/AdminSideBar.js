@@ -10,18 +10,18 @@ const navigation = [
     icon: "bi bi-speedometer2",
   },
   {
-    title: "Register Trainer",
-    href: "/admin/register/trainer",
+    title: "Trainer",
+    href: "/admin/trainer-list",
     icon: "bi bi-people",
   },
   {
-    title: "Register Trainee",
-    href: "/admin/register/trainee",
+    title: "Trainee",
+    href: "/admin/trainee-list",
     icon: "bi bi-people",
   },
   {
-    title: "Register Batch",
-    href: "/admin/register/batch",
+    title: "Batch",
+    href: "/admin/batch-list",
     icon: "bi bi-people",
   },
   {
@@ -35,20 +35,15 @@ const navigation = [
     icon: "bi bi-patch-check",
   },
   {
-    title: "Create Course",
-    href: "/admin/create/course",
+    title: "Course",
+    href: "/admin/courses",
     icon: "bi bi-card-text",
   },
   {
     title: "Schedule Batch",
-    href: "/admin/schedule/batch",
+    href: "/admin/scheduled-programs",
     icon: "bi bi-layout-split",
   },
-  {
-    title: "Assignment",
-    href: "/admin/create",
-    icon: "bi bi-columns",
-  }
 ];
 
 

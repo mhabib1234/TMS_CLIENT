@@ -26,6 +26,12 @@ import SubmitAssignment from './views/ui/SubmitAssignment';
 import Assignment from './views/ui/Assignment';
 import AllAssignmentList from './views/ui/AllAssignmentList';
 import AssignmentUpdate from './views/ui/AssignmentUpdate';
+import AllTraineeList from './views/ui/AllTraineeList';
+import AllTrainerList from './views/ui/AllTrainerList';
+import AllBatchList from './views/ui/AllBatchList';
+import AllCourseList from './views/ui/AllCourseList';
+import AllScheduledPrograms from './views/ui/AllScheduledPrograms';
+
 
 
 
@@ -44,12 +50,17 @@ function App() {
           <Route element={<AdminRoute />}>
           <Route path="admin" element={<AdminLayout />}>
             <Route path="/admin/dashboard" element={<Starter />} />
+            <Route path="/admin/trainee-list" element={<AllTraineeList/>} />
             <Route path="/admin/register/trainee" element={<TraineeRegister />} />
-            <Route path="/admin/register/trainer" element={<TrainerRegister />} />
+            <Route path="/admin/trainer-list" element={<AllTrainerList/>} />
+            <Route path="/admin/trainer/register" element={<TrainerRegister />} />
+            <Route path="/admin/batch-list" element={<AllBatchList/>} />
             <Route path="/admin/register/batch" element={<Batch />} />
             <Route path="/admin/assign/trainee" element={<AssignTrainee />} />
             <Route path="/admin/assign/trainer" element={<AssignTrainer />} />
+            <Route path="/admin/courses" element={<AllCourseList/>} />
             <Route path="/admin/create/course" element={<Course/>} />
+            <Route path="/admin/scheduled-programs" element={<AllScheduledPrograms/>} />
             <Route path="/admin/schedule/batch" element={<ScheduleBatch />} />
           </Route>
         </Route>

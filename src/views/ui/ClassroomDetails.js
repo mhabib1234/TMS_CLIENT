@@ -5,6 +5,7 @@ import placeholderImage from "../../assets/images/bg/bg3.jpg";
 import NoticeComponent from "../../components/NoticeComponent";
 import axios from "axios";
 import TrainerMessage from "../../components/TrainerMessage";
+import Notice from "./Notice";
 
 const ClassroomDetails = () => {
   const { classroomName } = useParams();
@@ -42,6 +43,7 @@ const ClassroomDetails = () => {
           </CardImgOverlay>
         </Card>
       </div>
+      <Notice/>
       <Row className="mt-5">
         <Col md={7}>
         { classId !== null && <TrainerMessage classroomId={classId} />}

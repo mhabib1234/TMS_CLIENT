@@ -77,9 +77,9 @@ const CreateCourse = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
+    <div style={{ backgroundColor: '#f8f9fa', minHeight: '30vh' }}>
       <Container>
-        <Row className="justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <Row className="justify-content-center align-items-center" style={{ minHeight: '55vh' }}>
           <Col md={6}>
             <Form onSubmit={handleFormSubmit}>
               <h2 className="text-center mb-4">Create Course</h2>

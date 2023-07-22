@@ -17,10 +17,10 @@ const AssignTrainer = () => {
 
   const fetchBatchNames = async () => {
     try {
-      const response = await axios.get('http://localhost:9080/batch/get/all');
+      const response = await axios.get('http://localhost:9080/batch/get/allName');
       const batches = response.data.Batches.map((batch) => ({
-        id: batch.id.toString(),
-        name: batch.batchName,
+        id: batch.id,
+        name: batch.name,
       }));
       setBatchList(batches);
     } catch (error) {
@@ -30,7 +30,7 @@ const AssignTrainer = () => {
 
   const fetchTrainers = async () => {
     try {
-      const response = await axios.get('http://localhost:9080/trainer/get/all');
+      const response = await axios.get('http://localhost:9080/trainer/all');
       console.log(response.data);
       const trainers = response.data.Trainer.map((trainer) => ({
         id: trainer.id,
@@ -49,11 +49,7 @@ const AssignTrainer = () => {
 
   const handleTrainerCheckboxChange = (trainerId) => {
     const isSelected = selectedTrainers.includes(trainerId);
-    if (isSelected) {
-      setSelectedTrainers(selectedTrainers.filter((id) => id !== trainerId));
-    } else {
-      setSelectedTrainers([...selectedTrainers, trainerId]);
-    }
+    setSelectedTrainers([...selectedTrainers, trainerId]);
   };
 
   const handleFormSubmit = async (e) => {
@@ -84,9 +80,9 @@ const AssignTrainer = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#f8f9fa', minHeight: '100vh', marginBottom: '150px' }}>
+    <div style={{ backgroundColor: '#f8f9fa', minHeight: '20vh', marginBottom: '150px' }}>
       <Container>
-        <Row className="justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <Row className="justify-content-center align-items-center" style={{ minHeight: '55vh' }}>
           <Col md={6}>
             <Form onSubmit={handleFormSubmit}>
               <h2 className="text-center mb-4">Assign Trainers to Batch</h2>

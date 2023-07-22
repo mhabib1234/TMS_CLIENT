@@ -9,7 +9,6 @@ const Batch = () => {
     batchName: '',
     startDate: '',
     endDate: '',
-    numberOfTrainee: 0,
   });
 
   const handleFormSubmit = async (e) => {
@@ -34,16 +33,19 @@ const Batch = () => {
           batchName: '',
           startDate: '',
           endDate: '',
-          numberOfTrainee: 0,
         });
       } else {
+        console.log(response.data)
         const errorMessage = response.data || "Batch creation failed. Please try again.";
         toast.error(errorMessage, { autoClose: 3000 });
       }
     } catch (error) {
-      // Display error toast notification
-     // console.log(response.data);
-      toast.error("Error creating batch. Please try again.", { autoClose: 3000 });
+      if (error.response && error.response.data) {
+        const errorMessage = error.response.data;
+        toast.error(errorMessage, { autoClose: 3000 });
+      } else {
+        toast.error("Error creating batch. Please try again.", { autoClose: 3000 });
+      }
       
     }
   };
@@ -84,6 +86,7 @@ const Batch = () => {
                   name="startDate"
                   value={batchData.startDate}
                   onChange={handleInputChange}
+                  required
                 />
               </FormGroup>
 
@@ -95,18 +98,7 @@ const Batch = () => {
                   name="endDate"
                   value={batchData.endDate}
                   onChange={handleInputChange}
-                />
-              </FormGroup>
-
-              <FormGroup>
-                <Label for="numberOfTrainee">Number of Trainees</Label>
-                <Input
-                  type="number"
-                  id="numberOfTrainee"
-                  name="numberOfTrainee"
-                  placeholder="Enter number of trainees"
-                  value={batchData.numberOfTrainee}
-                  onChange={handleInputChange}
+                  required
                 />
               </FormGroup>
 
