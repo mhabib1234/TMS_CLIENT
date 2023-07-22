@@ -11,31 +11,29 @@ const Assignment = () => {
     type: '',
     deadline: '',
     trainerId: '',
+    description: '',
     file: null,
   });
   const [scheduleList, setScheduleList] = useState([]);
   const [userData, setUserData] = useState(null);
-  
 
   useEffect(() => {
-    fetchSchedules();
-  }, []);
-
-  useEffect(() => {
-    const userDataString = localStorage.getItem("user");
+    const userDataString = localStorage.getItem('user');
     if (userDataString) {
       const userData = JSON.parse(userDataString);
       setUserData(userData);
+      fetchSchedules(userData.id);
     }
   }, []);
-
-  const fetchSchedules = async () => {
+  
+  const fetchSchedules = async (userId) => {
     try {
       const response = await axios.get('http://localhost:9080/schedule-batch');
-      const schedules = response.data.Schedules.map((schedule) => ({
-        id: schedule.id,
-        name: schedule.name,
-      }));
+      const schedules = response.data.Schedules.filter((schedule) => schedule.trainerId === userId)
+        .map((schedule) => ({
+          id: schedule.id,
+          name: schedule.name,
+        }));
       setScheduleList(schedules);
     } catch (error) {
       console.error('Error fetching schedules:', error);
@@ -51,11 +49,11 @@ const Assignment = () => {
       formDataToSend.append('type', formData.type);
       formDataToSend.append('deadline', formData.deadline);
       formDataToSend.append('trainerId', userData.id )
+      formDataToSend.append('description', formData.description);
       if (formData.file !== null) {
         formDataToSend.append('file', formData.file);
       }
   
-    //  console.log(formDataToSend)
       const response = await axios.post('http://localhost:9080/assignment', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -72,6 +70,7 @@ const Assignment = () => {
         file: null,
       });
     } catch (error) {
+      
       toast.error('Error creating assignment');
     }
   };
@@ -101,7 +100,7 @@ const Assignment = () => {
               <h2 className="text-center mb-4">Create Assignment</h2>
               <FormGroup row>
                 <Label for="scheduleId" sm={4}>
-                  Schedule Name
+                  Course Name
                 </Label>
                 <Col sm={8}>
                   <Input
@@ -112,7 +111,7 @@ const Assignment = () => {
                     onChange={handleInputChange}
                     required
                   >
-                    <option value="">Select a schedule</option>
+                    <option value="">Select a Course</option>
                     {scheduleList.map((schedule) => (
                       <option key={schedule.id} value={schedule.id}>
                         {schedule.name}
@@ -157,6 +156,22 @@ const Assignment = () => {
                     <option value="Mini Project">Mid Term Mini Project</option>
                     <option value="Final Project">Final Project</option>
                   </Input>
+                </Col>
+              </FormGroup>
+               
+              <FormGroup row>
+                <Label for="description" sm={4}>
+                  Description
+                </Label>
+                <Col sm={8}>
+                  <Input
+                    type="textarea"
+                    id="description"
+                    name="description"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    required
+                  />
                 </Col>
               </FormGroup>
 

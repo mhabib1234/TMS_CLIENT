@@ -18,16 +18,6 @@ const navigation = [
     title: "Assignment",
     href: "/trainer/assignment-list",
     icon: "bi bi-columns",
-  },
-  {
-    title: "Post",
-    href: "/trainer/create/post",
-    icon: "bi bi-card-text",
-  },
-  {
-    title: "Notice",
-    href: "/trainer/create/notice",
-    icon: "bi bi-columns",
   }
 ];
 

@@ -10,20 +10,27 @@ const AllAssignmentList = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
   const navigate = useNavigate();
-
+  //const [userId, setUserId] = useState(null);
+  
   useEffect(() => {
-    fetchAssignments();
+    const userDataString = localStorage.getItem('user');
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      fetchAssignments(userData.id); // Move fetchAssignments here after userData is set
+    }
   }, []);
+  
 
-  const fetchAssignments = async () => {
+  const fetchAssignments = async (userId) => {
     try {
-      const response = await axios.get('http://localhost:9080/assignment/trainer/1');
+      const response = await axios.get(`http://localhost:9080/assignment/trainer/${userId}`);
       setAssignments(response.data.Assignments);
     } catch (error) {
-      toast.error('Error fetching assignments');
+    //  toast.error('Error fetching assignments');
     }
   };
 
+  
   const toggleModal = () => {
     setModalOpen((prevState) => !prevState);
   };
@@ -47,6 +54,22 @@ const AllAssignmentList = () => {
     });
 
   };
+
+  
+  const downloadAssignmentFile = (assignmentId) => {
+    axios
+    .get(`http://localhost:9080/assignment/${assignmentId}/download`)
+    .then((response) => {
+        
+      toast.success("File downloaded successfully!");
+    })
+    .catch((error) => {
+      console.error("Error downloading file:", error);
+      toast.error("Error downloading file: " + error.message);
+    });
+
+  };
+
 
   return (
     <div style={{ backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
@@ -83,7 +106,18 @@ const AllAssignmentList = () => {
                       <td>{assignment.name}</td>
                       <td>{assignment.type}</td>
                       <td>{new Date(assignment.deadline).toLocaleDateString()}</td>
-                      <td>{/* File */}</td>
+                      <td>
+                <td>
+                {/* Display the link only if there's a file URL */}
+                {assignment.fileUrl ? (
+                  <a href="#" onClick={() => downloadAssignmentFile(assignment.id)}>
+                    File
+                  </a>
+                ) : (
+                  'No File Added'
+                )}
+              </td>
+              </td>
                       <td>{assignment.totalSubmitted}</td>
                       <td>
                         <Button
