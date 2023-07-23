@@ -31,6 +31,8 @@ import AllTrainerList from './views/ui/AllTrainerList';
 import AllBatchList from './views/ui/AllBatchList';
 import AllCourseList from './views/ui/AllCourseList';
 import AllScheduledPrograms from './views/ui/AllScheduledPrograms';
+import TraineeUpdateProfile from './components/TraineeUpdateProfile';
+import TraineeInfo from './components/dashboard/TraineeInfo';
 
 
 
@@ -70,6 +72,8 @@ function App() {
               <Route path="/trainee/dashboard" element={<TraineeStarter />} />
               <Route path="/trainee/classroom" element={<TraineeClassroom/>} />
               <Route path ="/trainee/submit-assignment" element={<SubmitAssignment/>} />
+              <Route path ="/trainee/update-profile" element={<TraineeUpdateProfile/>} />
+              <Route path ="/trainee/personal-info" element={<TraineeInfo/>} />
             </Route>
           </Route>
 

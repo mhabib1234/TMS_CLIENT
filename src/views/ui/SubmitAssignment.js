@@ -30,16 +30,25 @@ const SubmitAssignment = () => {
     if (userData) {
       const { role, id } = userData;
 
-      if (role === "Trainee") {
-        // If the role is Trainee, make the API call for Trainee
+      if (role === "TRAINEE") {
         axios
-          .get(`http://localhost:9080/trainee/classroom/${id}`)
+          .get(`http://localhost:9080/trainee/classroom/${id}`,{
+            headers:{
+              Authorization : `Bearer ${localStorage.getItem('token')}`,
+              "Content-Type": "application/json"
+            }
+          })
           .then((response) => {
             const classId = response.data;
             setClassId(classId);
             // Fetch assignments based on the class ID
            axios
-              .get("http://localhost:9080/assignment/all")
+              .get("http://localhost:9080/assignment/all",{
+                headers:{
+                  Authorization : `Bearer ${localStorage.getItem('token')}`,
+                  "Content-Type": "application/json"
+                }
+              })
               .then((response) => {
                 const filteredAssignments = response.data.Assignments.filter((assignment) =>
                   assignment.batches.includes(classId)
@@ -84,7 +93,12 @@ const SubmitAssignment = () => {
 
     // Make API call to submit assignment
     axios
-      .post(`http://localhost:9080/submit-assignment/${selectedAssignment.id}`, formData)
+      .post(`http://localhost:9080/submit-assignment/${selectedAssignment.id}`, formData,{
+        headers:{
+          Authorization : `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data',
+        }
+      })
       .then((response) => {
         // Handle success
         toast.success("Assignment submitted successfully!");
@@ -100,7 +114,12 @@ const SubmitAssignment = () => {
 
   const handleDownloadLinkClick = (assignmentId) => {
       axios
-        .get(`http://localhost:9080/assignment/${assignmentId}/download`)
+        .get(`http://localhost:9080/assignment/${assignmentId}/download`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'multipart/form-data',
+          }
+        })
         .then((response) => {
           toast.success("File downloaded successfully!");
         })

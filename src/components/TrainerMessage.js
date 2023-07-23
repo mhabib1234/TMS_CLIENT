@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Pagination, PaginationItem, PaginationLink, Input } from 'reactstrap';
 import TrainerMessageCard from './TrainerMessageCard';
+import { contextType } from 'react-modal';
 
 const TrainerMessage = ({ classroomId }) => {
   const [posts, setPosts] = useState([]);
@@ -13,7 +14,11 @@ const TrainerMessage = ({ classroomId }) => {
   // Fetch data from the API
   useEffect(() => {
     axios
-      .get(`http://localhost:9080/posts/classroom/${classroomId}`)
+      .get(`http://localhost:9080/posts/classroom/${classroomId}`,{
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
       .then((response) => {
         const sortedPosts = response.data.Posts.sort((a, b) => b.createdTime - a.createdTime);
         setPosts(sortedPosts);

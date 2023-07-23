@@ -23,7 +23,12 @@ const ScheduleBatch = () => {
 
   const fetchCourses = async () => {
     try {
-      const response = await axios.get('http://localhost:9080/course/all');
+      const response = await axios.get('http://localhost:9080/course/all',{
+        headers:{
+                  Authorization: `Bearer ${localStorage.getItem('token')}`,
+                  "Content-Type": "application/json"
+        },
+      });
       const courses = response.data.Courses.map((course) => ({
         id: course.id.toString(),
         name: course.name,
@@ -37,7 +42,12 @@ const ScheduleBatch = () => {
 
   const fetchBatches = async () => {
     try {
-      const response = await axios.get('http://localhost:9080/batch/get/allName');
+      const response = await axios.get('http://localhost:9080/batch/get/allName',{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          "Content-Type": "application/json"
+        },
+      });
       const batches = response.data.Batches.map((batch) => ({
         id: batch.id.toString(),
         name: batch.name,
@@ -65,7 +75,12 @@ const ScheduleBatch = () => {
       };
 
       console.log(scheduleBatchData)
-      const response = await axios.post('http://localhost:9080/schedule-batch', scheduleBatchData);
+      const response = await axios.post('http://localhost:9080/schedule-batch', scheduleBatchData,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          "Content-Type": "application/json"
+        },
+      });
       toast.success(response.data);
     } catch (error) {
       if (error.response && error.response.data) {

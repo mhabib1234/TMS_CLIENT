@@ -30,7 +30,12 @@ const TraineeMessageCard = ({ post }) => {
     };
 
     // Make API call to add the comment
-    axios.post(`http://localhost:9080/comments/${id}`, commentData)
+    axios.post(`http://localhost:9080/comments/${id}`, commentData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        "Content-Type" : 'application/json'
+      }
+    })
       .then((response) => {
         setShowModal(false);
         setComment('');
@@ -44,12 +49,17 @@ const TraineeMessageCard = ({ post }) => {
   };
 
   const handleFileDownload = () => {
-    axios.get(`http://localhost:9080/posts/${id}/download`)
+    axios.get(`http://localhost:9080/posts/${id}/download`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        "Content-Type" : 'multipart/form-data'
+      }
+    })
       .then((response) => {
-     //   toast.success('File downloaded');
+      toast.success('File downloaded');
       })
       .catch(() => {
-    //    toast.error('Error downloading file');
+      toast.error('Error downloading file');
       });
   }
 

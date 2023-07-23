@@ -13,14 +13,14 @@ const ClassroomDetails = () => {
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
-    // Make the API call to fetch the classroomId using the classroomName
     axios
-      .get(`http://localhost:9080/classroom/${classroomName}`)
-      .then((response) => {
-        // Assuming the response.data contains the classroomId
-       
+      .get(`http://localhost:9080/classroom/${classroomName}`, {
+        headers:{
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+      })
+      .then((response) => { 
         setClassId(response.data);
-      
         setLoading(false);
       })
       .catch((error) => {
@@ -42,10 +42,10 @@ const ClassroomDetails = () => {
       { classId !== null && <Notice classroomId={classId} />}
       </div>
       <Row className="mt-5">
-        <Col md={7}>
+        <Col md={8}>
         { classId !== null && <TrainerMessage classroomId={classId} />}
         </Col>
-        <Col md={5}>
+        <Col md={4}>
           {classId !== null && <NoticeComponent classroomId={classId} />}
         </Col>
       </Row>

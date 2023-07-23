@@ -13,7 +13,11 @@ const AllScheduledPrograms = () => {
 
   const fetchSchedules = () => {
     axios
-      .get('http://localhost:9080/schedule-batch')
+      .get('http://localhost:9080/schedule-batch', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
       .then((response) => {
         setSchedules(response.data.Schedules);
       })

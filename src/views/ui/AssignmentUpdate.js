@@ -22,7 +22,11 @@ const AssignmentUpdate = () => {
 
   const fetchSchedules = async () => {
     try {
-      const response = await axios.get('http://localhost:9080/schedule-batch');
+      const response = await axios.get('http://localhost:9080/schedule-batch', {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        }
+      });
       const schedules = response.data.Schedules.map((schedule) => ({
         id: schedule.id,
         name: schedule.name,
@@ -54,7 +58,8 @@ const AssignmentUpdate = () => {
     console.log(assignmentNumber)
     const response = await axios.put(`http://localhost:9080/assignment/${assignmentNumber}`, formDataToSend, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data'
         },
       });
 

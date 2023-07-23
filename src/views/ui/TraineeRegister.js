@@ -22,9 +22,8 @@ const TraineeRegister = () => {
       }, {
         crossDomain: true,
         headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
           "Content-Type": "application/json",
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
         },
       });
 

@@ -27,19 +27,25 @@ const Classroom = () => {
         const { role, id } = userData;
 
         try {
-          if (role === "Trainee") {
-            const response = await axios.get(`http://localhost:9080/trainee/classroom/${id}`);
+          if (role === "TRAINEE") {
+            const response = await axios.get(`http://localhost:9080/trainee/classroom/${id}`,{
+              headers:{
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+              }
+            });
             setClassId(response.data); // Set classIds with the array data received from the API
-          } else if (role === "Trainer") {
-            const response = await axios.get(`http://localhost:9080/trainer/classroom/${id}`);
+          } else if (role === "TRAINER") {
+            const response = await axios.get(`http://localhost:9080/trainer/classroom/${id}`,{
+              headers:{
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+              }
+            });
             setClassIds(response.data); // Set classIds with the array data received from the API
-            console.log(classIds)
-            console.log(response)
           } else {
-            console.error("Invalid role:", role);
+            console.log("failed to fetch")
           }
         } catch (error) {
-          console.error("Error fetching data:", error);
+          console.log("failed to fetch")
         } finally {
           setLoading(false);
         }
@@ -54,6 +60,7 @@ const Classroom = () => {
       try {
         const response = await fetch("http://localhost:9080/classroom/get", {
           headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
             "Content-Type": "application/json",
           },
         });
@@ -78,7 +85,7 @@ const Classroom = () => {
 
         setClassrooms(filteredClassrooms);
       } catch (error) {
-        console.error("Failed to fetch classrooms:", error);
+        
       }
     };
 

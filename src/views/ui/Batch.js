@@ -18,9 +18,10 @@ const Batch = () => {
       const response = await axios.post("http://localhost:9080/batch", batchData, {
         crossDomain: true,
         headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
           "Content-Type": "application/json",
           Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
+          
         },
       });
 

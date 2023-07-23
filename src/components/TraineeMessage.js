@@ -13,7 +13,12 @@ const TraineeMessage = ({ classroomId }) => {
   // Fetch data from the API
   useEffect(() => {
     axios
-      .get(`http://localhost:9080/posts/classroom/${classroomId}`)
+      .get(`http://localhost:9080/posts/classroom/${classroomId}`,{
+        headers:{
+          Authorization : `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type' : 'applicaiton/json'
+        }
+      })
       .then((response) => {
         const sortedPosts = response.data.Posts.sort((a, b) => b.createdTime - a.createdTime);
         setPosts(sortedPosts);

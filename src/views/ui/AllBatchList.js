@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Table } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const AllBatchList = () => {
   const navigate = useNavigate();
@@ -12,10 +13,14 @@ const AllBatchList = () => {
   }, []);
 
   const fetchBatches = () => {
-    fetch('http://localhost:9080/batch/get/all')
-      .then((response) => response.json())
-      .then((data) => {
-        setBatches(data || []);
+    axios
+      .get('http://localhost:9080/batch/get/all', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .then((response) => {
+        setBatches(response.data || []);
         setLoading(false);
       })
       .catch((error) => {

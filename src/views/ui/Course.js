@@ -19,7 +19,11 @@ const CreateCourse = () => {
 
   const fetchTrainers = async () => {
     try {
-      const response = await axios.get('http://localhost:9080/trainer/get/allName');
+      const response = await axios.get('http://localhost:9080/trainer/get/allName',{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
       const trainers = response.data.Trainers.map((trainer) => ({
         id: trainer.id,
         name: trainer.name,
@@ -38,8 +42,9 @@ const CreateCourse = () => {
       console.log(formData);
       const response = await axios.post('http://localhost:9080/course', formData, {
         headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
+          
         },
       });
       toast.success(response.data);

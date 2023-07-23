@@ -10,10 +10,9 @@ const AllTraineeList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const authToken = localStorage.getItem('authToken');
     fetch('http://localhost:9080/trainee/get/all', {
       headers: {
-        //  Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     })
       .then((response) => response.json())

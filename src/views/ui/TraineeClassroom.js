@@ -5,7 +5,7 @@ import { Container, Card, CardImg, CardImgOverlay, CardTitle, Row, Col } from "r
 import placeholderImage from "../../assets/images/bg/bg3.jpg";
 import TraineeMessage from "../../components/TraineeMessage";
 import NoticeComponent from "../../components/NoticeComponent";
-import ClassroomDetails from "./ClassroomDetails";
+
 
 const TraineeClassroom = () => {
   const { classroomName } = useParams();
@@ -29,10 +29,14 @@ const TraineeClassroom = () => {
     if (userData) {
       const { role, id } = userData;
 
-      if (role === "Trainee") {
-        // If the role is Trainee, make the API call for Trainee
+      if (role === "TRAINEE") {
         axios
-          .get(`http://localhost:9080/trainee/classroom/${id}`)
+          .get(`http://localhost:9080/trainee/classroom/${id}`,{
+            headers:{
+              Authorization : `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type' : 'application/json'
+            }
+          })
           .then((response) => {
             setClassId(response.data);
             setLoading(false);
@@ -41,21 +45,7 @@ const TraineeClassroom = () => {
             console.error("Error fetching Trainee data:", error);
             setLoading(false);
           });
-      } else if (role === "Trainer") {
-        axios
-          .get(`/trainer/${id}`)
-          .then((response) => {
-            console.log("Trainer API response:", response.data);
-            setLoading(false);
-          })
-          .catch((error) => {
-            console.error("Error fetching Trainer data:", error);
-            setLoading(false);
-          });
-      } else {
-        console.error("Invalid role:", role);
-        setLoading(false);
-      }
+      } 
     }
   }, [userData]);
 
@@ -75,12 +65,10 @@ const TraineeClassroom = () => {
         )}
       </div>
       <Row className="mt-5">
-        <Col md={7}>
-          {/* Pass the classroomId to TraineeMessage component */}
+        <Col md={8}>
           <TraineeMessage classroomId={classId} />
         </Col>
-        <Col md={5}>
-          {/* Pass the classroomId to NoticeComponent component */}
+        <Col md={4}>
           <NoticeComponent classroomId={classId} />
         </Col>
       </Row>

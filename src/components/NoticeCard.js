@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardText, Badge } from 'reactstrap';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from 'react-modal';
 import axios from 'axios';
@@ -14,8 +14,6 @@ const NoticeCard = ({ post }) => {
     const colors = ['#f0f7da', '#e0edd5', '#d0e4d1', '#f5d0d0', '#f5e3e6'];
     return colors[Math.floor(Math.random() * colors.length)];
   };
-
-
 
   const formatTimestamp = (timestamp) => {
     const currentTime = new Date().getTime();
@@ -45,9 +43,14 @@ const NoticeCard = ({ post }) => {
 
 
   const handleFileDownload = () => {
-    axios.get(`http://localhost:9080/notice/${id}/download`)
+    axios.get(`http://localhost:9080/notice/${id}/download`,{
+      headers:{
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'multipart/form-data',
+      }
+    })
       .then((response) => {
-     //   toast.success('File downloaded');
+      toast.success('File downloaded');
       })
       .catch(() => {
     //    toast.error('Error downloading file');

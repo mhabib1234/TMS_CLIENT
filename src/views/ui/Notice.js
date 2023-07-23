@@ -42,6 +42,7 @@ const Notice = ({ classroomId }) => {
       const endpoint = formData.type === 'Message' ? 'posts' : 'notice';
       const response = await axios.post(`http://localhost:9080/${endpoint}`, formDataToSend, {
         headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data',
         },
       });

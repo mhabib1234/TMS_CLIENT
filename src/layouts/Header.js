@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Navbar,
   Collapse,
@@ -15,11 +15,24 @@ import {
 } from "reactstrap";
 import { ReactComponent as LogoWhite } from "../assets/images/logos/xtremelogowhite.svg";
 import user1 from "../assets/images/users/user1.jpg";
+import axios from "axios";
 
 const Header = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [userData, setUserData] = useState(null);
 
+  // Fetch user data from localStorage when the component mounts
+  useEffect(() => {
+    const userDataString = localStorage.getItem("user");
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      setUserData(userData);
+    }
+  }, []);
+
+ 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const Handletoggle = () => {
     setIsOpen(!isOpen);
@@ -27,6 +40,14 @@ const Header = () => {
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
+  const handleEditProfile = () => {
+    navigate("/trainee/update-profile"); 
+  };
+  const handleNavigateToPersonalInfo = () => {
+    navigate("/trainee/personal-info"); 
+  };
+
+
   return (
     <div className="sticky-top">
       <Navbar color="primary" dark expand="md">
@@ -64,22 +85,6 @@ const Header = () => {
                 Starter
               </Link>
             </NavItem>
-            <NavItem>
-              <Link to="/about" className="nav-link">
-                About
-              </Link>
-            </NavItem>
-            <UncontrolledDropdown inNavbar nav>
-              <DropdownToggle caret nav>
-                DD Menu
-              </DropdownToggle>
-              <DropdownMenu end>
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>Reset</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
           </Nav>
           <Dropdown isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle color="primary">
@@ -92,11 +97,9 @@ const Header = () => {
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>Info</DropdownItem>
-              <DropdownItem>My Account</DropdownItem>
-              <DropdownItem>Edit Profile</DropdownItem>
+              <DropdownItem onClick={handleNavigateToPersonalInfo}>Personal Info</DropdownItem>
+              <DropdownItem onClick={handleEditProfile}>Update Profile</DropdownItem>
               <DropdownItem divider />
-              <DropdownItem>My Balance</DropdownItem>
-              <DropdownItem>Inbox</DropdownItem>
               <DropdownItem>Logout</DropdownItem>
             </DropdownMenu>
           </Dropdown>

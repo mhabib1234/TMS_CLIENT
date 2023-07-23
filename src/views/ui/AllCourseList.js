@@ -18,7 +18,11 @@ const AllCourseList = () => {
 
   const fetchCourses = async () => {
     try {
-      const response = await axios.get('http://localhost:9080/course/all');
+      const response = await axios.get('http://localhost:9080/course/all',{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
       setCourses(response.data.Courses || []);
       setTotalCourses(response.data['Total Course'] || 0);
     } catch (error) {

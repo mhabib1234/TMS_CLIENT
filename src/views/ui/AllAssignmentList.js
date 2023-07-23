@@ -23,7 +23,12 @@ const AllAssignmentList = () => {
 
   const fetchAssignments = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:9080/assignment/trainer/${userId}`);
+      const response = await axios.get(`http://localhost:9080/assignment/trainer/${userId}`,{
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        }
+      });
       setAssignments(response.data.Assignments);
     } catch (error) {
     //  toast.error('Error fetching assignments');
@@ -43,7 +48,12 @@ const AllAssignmentList = () => {
   const downloadSubmittedAssignmentFile = (submittedAssignmentId) => {
     console.log(submittedAssignmentId);
     axios
-    .get(`http://localhost:9080/submit-assignment/${submittedAssignmentId}/download`)
+    .get(`http://localhost:9080/submit-assignment/${submittedAssignmentId}/download`,{
+      headers:{
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    })
     .then((response) => {
         
       toast.success("File downloaded successfully!");
@@ -58,7 +68,12 @@ const AllAssignmentList = () => {
   
   const downloadAssignmentFile = (assignmentId) => {
     axios
-    .get(`http://localhost:9080/assignment/${assignmentId}/download`)
+    .get(`http://localhost:9080/assignment/${assignmentId}/download`,{
+      headers:{
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'multipart/form-data',
+      }
+    })
     .then((response) => {
         
       toast.success("File downloaded successfully!");
@@ -108,7 +123,6 @@ const AllAssignmentList = () => {
                       <td>{new Date(assignment.deadline).toLocaleDateString()}</td>
                       <td>
                 <td>
-                {/* Display the link only if there's a file URL */}
                 {assignment.fileUrl ? (
                   <a href="#" onClick={() => downloadAssignmentFile(assignment.id)}>
                     File

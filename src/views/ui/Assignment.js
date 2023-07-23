@@ -28,7 +28,11 @@ const Assignment = () => {
   
   const fetchSchedules = async (userId) => {
     try {
-      const response = await axios.get('http://localhost:9080/schedule-batch');
+      const response = await axios.get('http://localhost:9080/schedule-batch',{
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        }
+      });
       const schedules = response.data.Schedules.filter((schedule) => schedule.trainerId === userId)
         .map((schedule) => ({
           id: schedule.id,
@@ -56,6 +60,7 @@ const Assignment = () => {
   
       const response = await axios.post('http://localhost:9080/assignment', formDataToSend, {
         headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data',
         },
       });

@@ -26,8 +26,8 @@ const TrainerRegister = () => {
       const response = await axios.post("http://localhost:9080/trainer/register", formData, {
         crossDomain: true,
         headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
           "Content-Type": "application/json",
-          Accept: "application/json",
           "Access-Control-Allow-Origin": "*",
         },
       });

@@ -39,11 +39,11 @@ const SignIn = () => {
       toast.success('Signin Successful');
 
       // Redirect to different routes based on role
-      if (user && user.role === 'Admin') {
+      if (user && user.role === 'ADMIN') {
         navigate('/admin/dashboard');
-      } else if (user && user.role === 'Trainer') {
+      } else if (user && user.role === 'TRAINER') {
         navigate('/trainer/dashboard');
-      } else if (user && user.role === 'Trainee') {
+      } else if (user && user.role === 'TRAINEE') {
         navigate('/trainee/dashboard');
       }
     } catch (error) {

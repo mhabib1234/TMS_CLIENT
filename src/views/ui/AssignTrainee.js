@@ -17,7 +17,11 @@ const AssignTrainee = () => {
 
   const fetchBatchNames = async () => {
     try {
-      const response = await axios.get('http://localhost:9080/batch/get/allName');
+      const response = await axios.get('http://localhost:9080/batch/get/allName', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
       const batches = response.data.Batches.map((batch) => ({
         id: batch.id,
         name: batch.name,
@@ -30,7 +34,11 @@ const AssignTrainee = () => {
 
   const fetchTrainees = async () => {
     try {
-      const response = await axios.get('http://localhost:9080/trainee/gets/all');
+      const response = await axios.get('http://localhost:9080/trainee/gets/all', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
       const assignedTrainees = response.data.Trainees.filter((trainee) => trainee.batchId !== null);
       const unassignedTrainees = assignedTrainees.map((trainee) => ({
         id: trainee.id,
@@ -66,7 +74,12 @@ const AssignTrainee = () => {
 
     try {
       // Send the POST request to the backend API
-      const response = await axios.post('http://localhost:9080/assign-trainee', requestBody);
+      const response = await axios.post('http://localhost:9080/assign-trainee', requestBody, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+      });
       toast.success('Trainees assigned successfully');
       console.log('Response:', response.data);
 

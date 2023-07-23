@@ -10,14 +10,16 @@ const AllTrainerList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const authToken = localStorage.getItem('authToken');
-    fetchTrainers(authToken);
+    fetchTrainers();
   }, []);
 
-  const fetchTrainers = (authToken) => {
+
+  const fetchTrainers = () => {
     fetch('http://localhost:9080/trainer/all', {
       headers: {
-        // Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+         'Content-Type': 'application/json',
+        
       },
     })
       .then((response) => response.json())
@@ -26,6 +28,7 @@ const AllTrainerList = () => {
         setLoading(false);
       })
       .catch((error) => {
+        console.log(error)
         console.error('Error fetching trainers:', error);
         setLoading(false);
       });
