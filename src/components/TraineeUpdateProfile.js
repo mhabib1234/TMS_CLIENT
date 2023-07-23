@@ -55,11 +55,16 @@ const TraineeUpdateProfile = () => {
     });
 
     try {
-      const response = await axios.put(`http://localhost:9080/trainee/update/${userData.id}`, formData);
-      console.log(response)
+      const response = await axios.put(`http://localhost:9080/trainee/update/${userData.id}`, formData,{
+        headers: {
+          Authorization : `Bearer ${localStorage.getItem('token')}`,
+          "Content-Type" : 'multipart/form-data'
+        }
+      });
+     
       toast.success(response.data);
     } catch (error) {
-      console.log(error.response);
+        console.log(error.response)
       toast.error(error.response?.data || "An error occurred while updating the trainee");
     }
   };

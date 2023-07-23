@@ -8,18 +8,24 @@ const TraineeInfo = () => {
 
   useEffect(() => {
     const fetchTraineeData = async () => {
+      const userData = JSON.parse(localStorage.getItem("user"));
       try {
-        const response = await axios.get('http://localhost:9080/trainee/1'); 
+        const response = await axios.get(`http://localhost:9080/trainee/${userData.id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+          }
+        }); 
         setTrainee(response.data);
       } catch (error) {
         console.log(error);
         // Handle error or show a default trainee data if needed
       }
     };
-
+  
     fetchTraineeData();
   }, []);
-
+  
   if (!trainee) {
     // Add loading state or return null while fetching the data
     return null;
