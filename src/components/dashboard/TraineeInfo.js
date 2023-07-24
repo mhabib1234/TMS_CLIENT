@@ -19,7 +19,6 @@ const TraineeInfo = () => {
         setTrainee(response.data);
       } catch (error) {
         console.log(error);
-        // Handle error or show a default trainee data if needed
       }
     };
   

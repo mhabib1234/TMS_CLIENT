@@ -44,6 +44,11 @@ const navigation = [
     href: "/admin/scheduled-programs",
     icon: "bi bi-layout-split",
   },
+  {
+    title: "Classroom",
+    href: "/admin/classroom",
+    icon: "bi bi-layout-split",
+  },
 ];
 
 
@@ -84,21 +89,14 @@ const AdminSideBar = () => {
                 </Link>
               </NavItem>
             ))}
-            <Button
-              color="danger"
-              tag="a"
-              target="_blank"
-              className="mt-3"
-              href="https://www.wrappixel.com/templates/xtreme-react-redux-admin/?ref=33"
-            >
-              Upgrade To Pro
-            </Button>
           </Nav>
         </div>
       </div>
     </div>
   );
 };
+
+
 
 export default AdminSideBar;
 

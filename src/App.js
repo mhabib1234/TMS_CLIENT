@@ -32,6 +32,7 @@ import AllCourseList from './views/ui/AllCourseList';
 import AllScheduledPrograms from './views/ui/AllScheduledPrograms';
 import TraineeUpdateProfile from './components/TraineeUpdateProfile';
 import TraineeInfo from './components/dashboard/TraineeInfo';
+import AdminClassroom from './views/ui/AdminClassroom';
 
 
 
@@ -63,6 +64,7 @@ function App() {
             <Route path="/admin/create/course" element={<Course/>} />
             <Route path="/admin/scheduled-programs" element={<AllScheduledPrograms/>} />
             <Route path="/admin/schedule/batch" element={<ScheduleBatch />} />
+            <Route path="/admin/classroom" element={<AdminClassroom/>} />
           </Route>
         </Route>
 

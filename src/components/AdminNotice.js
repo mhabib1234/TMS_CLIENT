@@ -4,9 +4,8 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Notice = ({ classroomId }) => {
+const AdminNotice = ({ classroomId }) => {
   const [formData, setFormData] = useState({
-    type: 'Message',
     title: '',
     file: null,
   });
@@ -48,6 +47,7 @@ const Notice = ({ classroomId }) => {
       });
 
       toast.success(response.data);
+
       setFormData({
         type: 'Message',
         title: '',
@@ -132,4 +132,4 @@ const Notice = ({ classroomId }) => {
   );
 };
 
-export default Notice;
+export default AdminNotice;

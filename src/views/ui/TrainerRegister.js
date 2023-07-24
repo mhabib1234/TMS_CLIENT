@@ -32,7 +32,7 @@ const TrainerRegister = () => {
         },
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         // Display success toast notification
         toast.success("Registration successful!", { autoClose: 3000 });
         // Clear form fields
@@ -43,12 +43,12 @@ const TrainerRegister = () => {
         });
       } else {
         // Display error toast notification
-        toast.error("Registration failed. Please try again.", { autoClose: 3000 });
+        toast.error(response.data.error, { autoClose: 3000 });
       }
     } catch (error) {
       // Display error toast notification
       toast.error("Error registering trainer. Please try again.", { autoClose: 3000 });
-      console.log("Error registering trainer:", error);
+      
     }
   };
 

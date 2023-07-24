@@ -41,7 +41,7 @@ const TraineeSignup = () => {
         },
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         // Display success toast notification
         toast.success("Registration successful!", { autoClose: 3000 });
         // Clear form fields

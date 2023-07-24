@@ -58,7 +58,7 @@ const Classroom = () => {
   useEffect(() => {
     const fetchClassrooms = async () => {
       try {
-        const response = await fetch("http://localhost:9080/classroom/get", {
+        const response = await fetch("http://localhost:9080/classroom/get/all", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
             "Content-Type": "application/json",

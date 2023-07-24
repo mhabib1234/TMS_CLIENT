@@ -27,10 +27,14 @@ const AllScheduledPrograms = () => {
       });
   };
 
-  const formatDate = (dateArray) => {
-    const [year, month, day, hour, minute] = dateArray;
-    return `${year}-${padZero(month)}-${padZero(day)}`;
+  const formatDate = (date) => {
+    const formattedDate = new Date(date);
+    const year = formattedDate.getFullYear();
+    const month = padZero(formattedDate.getMonth() + 1);
+    const day = padZero(formattedDate.getDate());
+    return `${year}-${month}-${day}`;
   };
+  
 
   const padZero = (value) => {
     return value.toString().padStart(2, '0');

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Table } from 'reactstrap';
+import { Button, Table} from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 
 const AllTraineeList = () => {
@@ -17,8 +17,8 @@ const AllTraineeList = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setTrainees(data.Trainees || []); // Initialize with empty array if undefined or null
-        setLoading(false); // Set loading to false after data is fetched
+        setTrainees(data.Trainees || []); 
+        setLoading(false); 
       })
       .catch((error) => {
         console.error('Error fetching trainees:', error);
@@ -44,7 +44,6 @@ const AllTraineeList = () => {
           <td>{trainee.fullName}</td>
           <td>{trainee.profilePicture}</td>
           <td>{trainee.gender}</td>
-          <td>{trainee.dateOfBirth}</td>
           <td>{trainee.email}</td>
           <td>{trainee.domain}</td>
           <td>{trainee.contactNumber}</td>
@@ -52,7 +51,6 @@ const AllTraineeList = () => {
           <td>{trainee.educationalInstitute}</td>
           <td>{trainee.cgpa}</td>
           <td>{trainee.passingYear}</td>
-          <td>{trainee.presentAddress}</td>
         </tr>
       ))
     : null;
@@ -65,7 +63,7 @@ const AllTraineeList = () => {
         </Button>
       </div>
       <h3>Number of Trainee: {trainees.length}</h3>
-
+    
       {/* Conditional rendering based on loading state */}
       {loading ? (
         <p>Loading...</p>
@@ -77,7 +75,6 @@ const AllTraineeList = () => {
               <th>Full Name</th>
               <th>Profile Picture</th>
               <th>Gender</th>
-              <th>Date of Birth</th>
               <th>Email</th>
               <th>Domain</th>
               <th>Contact Number</th>
@@ -85,7 +82,6 @@ const AllTraineeList = () => {
               <th>Educational Institute</th>
               <th>CGPA</th>
               <th>Passing Year</th>
-              <th>Present Address</th>
             </tr>
           </thead>
           {/* Table body */}

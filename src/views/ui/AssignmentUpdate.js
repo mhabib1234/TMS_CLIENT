@@ -56,7 +56,7 @@ const AssignmentUpdate = () => {
   
     //  console.log(formDataToSend)
     console.log(assignmentNumber)
-    const response = await axios.put(`http://localhost:9080/assignment/${assignmentNumber}`, formDataToSend, {
+    const response = await axios.put(`http://localhost:9080/assignment/update/${assignmentNumber}`, formDataToSend, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data'

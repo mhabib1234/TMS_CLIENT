@@ -137,18 +137,19 @@ const SubmitAssignment = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Name</th>
+                <th>Course Name</th>
+                <th>Task Title</th>
                 <th>Description</th>
                 <th>Type</th>
                 <th>Deadline</th>
                 <th>File</th>
-                <th>Course Name</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {assignments.map((assignment) => (
                 <tr key={assignment.id}>
+                   <td>{assignment.scheduleName}</td>
                   <td>{assignment.name}</td>
                   <td>{assignment.description}</td>
                   <td>{assignment.type}</td>
@@ -158,7 +159,6 @@ const SubmitAssignment = () => {
                       Download
                     </a>
                   </td>
-                  <td>{assignment.scheduleName}</td>
                   <td>
                     <Button color="primary" onClick={() => handleOpenModal(assignment)}>
                       Submit Assignment
