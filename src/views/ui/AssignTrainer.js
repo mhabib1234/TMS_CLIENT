@@ -35,7 +35,7 @@ const AssignTrainer = () => {
 
   const fetchTrainers = async () => {
     try {
-      const response = await axios.get('http://localhost:9080/trainer/all', {
+      const response = await axios.get('http://localhost:9080/trainer/get/all', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

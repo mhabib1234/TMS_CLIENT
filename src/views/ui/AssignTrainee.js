@@ -34,7 +34,7 @@ const AssignTrainee = () => {
 
   const fetchTrainees = async () => {
     try {
-      const response = await axios.get('http://localhost:9080/trainee/gets/all', {
+      const response = await axios.get('http://localhost:9080/trainee/get/unassigned-trainee', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

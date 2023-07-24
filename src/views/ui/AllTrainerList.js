@@ -15,7 +15,7 @@ const AllTrainerList = () => {
 
 
   const fetchTrainers = () => {
-    fetch('http://localhost:9080/trainer/all', {
+    fetch('http://localhost:9080/trainer/get/all', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
          'Content-Type': 'application/json',
