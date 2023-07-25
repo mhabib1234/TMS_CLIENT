@@ -46,8 +46,12 @@ const Header = () => {
   const handleNavigateToPersonalInfo = () => {
     navigate("/trainee/personal-info"); 
   };
-
-
+  const handleLogoutProfile = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    navigate("/signin");
+  };
+  
   return (
     <div className="sticky-top">
       <Navbar color="primary" dark expand="md">
@@ -100,7 +104,7 @@ const Header = () => {
               <DropdownItem onClick={handleNavigateToPersonalInfo}>Personal Info</DropdownItem>
               <DropdownItem onClick={handleEditProfile}>Update Profile</DropdownItem>
               <DropdownItem divider />
-              <DropdownItem>Logout</DropdownItem>
+              <DropdownItem onClick={handleLogoutProfile}>Logout</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </Collapse>
