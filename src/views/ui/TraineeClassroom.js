@@ -66,9 +66,11 @@ const TraineeClassroom = () => {
       </div>
       <Row className="mt-5">
         <Col md={8}>
+        <div> <h3>Posts</h3></div>
           <TraineeMessage classroomId={classId} />
         </Col>
         <Col md={4}>
+        <div> <h3>Notice</h3></div>
           <NoticeComponent classroomId={classId} />
         </Col>
       </Row>

@@ -43,9 +43,11 @@ const ClassroomDetails = () => {
       </div>
       <Row className="mt-5">
         <Col md={8}>
+        <div> <h3>Posts</h3></div>
         { classId !== null && <TrainerMessage classroomId={classId} />}
         </Col>
         <Col md={4}>
+        <div> <h3>Notice</h3></div>
           {classId !== null && <NoticeComponent classroomId={classId} />}
         </Col>
       </Row>
