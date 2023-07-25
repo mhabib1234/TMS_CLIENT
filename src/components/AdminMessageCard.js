@@ -76,11 +76,6 @@ const AdminMessageCard = ({ post }) => {
           {/* Button to open the modal */}
           <div className="d-flex justify-content-between align-items-center">
             <div>
-              <button className="btn btn-link p-0" onClick={toggleModal}>
-                 Comment
-              </button>
-            </div>
-            <div>
               {file && (
                 <div>
                   <a href={file} target="_blank" rel="noopener noreferrer" className="font-weight-bold">

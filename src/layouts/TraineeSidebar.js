@@ -6,7 +6,7 @@ import Logo from "./Logo";
 const navigation = [
   {
     title: "Classroom",
-    href: "/trainee/classroom",
+    href: "/trainee/classsroom",
     icon: "bi bi-columns",
   },
   {

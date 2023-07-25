@@ -62,7 +62,7 @@ function App() {
 
           <Route element={<TraineeRoute />}>
             <Route path="trainee" element={<TraineeLayout />}>
-              <Route path="/trainee/classroom" element={<TraineeClassroom/>} />
+              <Route path="/trainee/classsroom" element={<TraineeClassroom/>} />
               <Route path ="/trainee/submit-assignment" element={<SubmitAssignment/>} />
               <Route path ="/trainee/update-profile" element={<TraineeUpdateProfile/>} />
               <Route path ="/trainee/personal-info" element={<TraineeInfo/>} />

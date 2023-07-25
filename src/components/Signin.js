@@ -44,6 +44,7 @@ const SignIn = () => {
       } else if (user && user.role === 'TRAINER') {
         navigate('/trainer/classroom');
       } else if (user && user.role === 'TRAINEE') {
+        console.log("here data is coming")
         navigate('/trainee/classsroom');
       }
     } catch (error) {
