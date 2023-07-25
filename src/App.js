@@ -11,12 +11,10 @@ import AssignTrainee from './views/ui/AssignTrainee';
 import AssignTrainer from './views/ui/AssignTrainer';
 import ScheduleBatch from './views/ui/ScheduleBatch';
 import TrainerRoute from './routes/AuteRoutes/TrainerRoute';
-import Buttons from './views/ui/Buttons';
 import TrainerLayout from './layouts/TrainerLayout';
 import TrainerRegister from './views/ui/TrainerRegister';
 import TraineeRegister from './views/ui/TraineeRegister';
 import Course from './views/ui/Course';
-import TraineeStarter from './views/TraineeStarter';
 import Post from './views/ui/Post';
 import Classroom from './views/ui/Classroom';
 import ClassroomDetails from './views/ui/ClassroomDetails';
@@ -33,19 +31,13 @@ import AllScheduledPrograms from './views/ui/AllScheduledPrograms';
 import TraineeUpdateProfile from './components/TraineeUpdateProfile';
 import TraineeInfo from './components/dashboard/TraineeInfo';
 import AdminClassroom from './views/ui/AdminClassroom';
+import Starter from './views/Starter';
 
 
-
-
-
-// Lazy-loaded components
-const Starter = lazy(() => import('./views/Starter'));
-const Alerts = lazy(() => import('./views/ui/Alerts'));
 
 function App() {
   return (
     <div className="App">
-      <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/signin" element={<Signin />} />
           
@@ -70,7 +62,6 @@ function App() {
 
           <Route element={<TraineeRoute />}>
             <Route path="trainee" element={<TraineeLayout />}>
-              <Route path="/trainee/dashboard" element={<TraineeStarter />} />
               <Route path="/trainee/classroom" element={<TraineeClassroom/>} />
               <Route path ="/trainee/submit-assignment" element={<SubmitAssignment/>} />
               <Route path ="/trainee/update-profile" element={<TraineeUpdateProfile/>} />
@@ -80,7 +71,6 @@ function App() {
 
           <Route element={<TrainerRoute />}>
             <Route path="trainer" element={<TrainerLayout />}>
-              <Route path="/trainer/dashboard" element={<Buttons />} />
               <Route path="/trainer/classroom" element ={<Classroom/>}/>
               <Route path="/trainer/classroom/:classroomName" element ={<ClassroomDetails/>}/>
               <Route path="/trainer/assignment-list" element ={<AllAssignmentList/>}/>
@@ -93,7 +83,6 @@ function App() {
 
           <Route path="/" element={<Navigate to="/signin" />} />
         </Routes>
-      </Suspense>
     </div>
   );
 }

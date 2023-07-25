@@ -5,11 +5,6 @@ import Logo from "./Logo";
 
 const navigation = [
   {
-    title: "Dashboard",
-    href: "/trainer/dashboard",
-    icon: "bi bi-hdd-stack",
-  },
-  {
     title: "Classroom",
     href: "/trainer/classroom",
     icon: "bi bi-columns",
@@ -17,7 +12,7 @@ const navigation = [
   {
     title: "Assignment",
     href: "/trainer/assignment-list",
-    icon: "bi bi-columns",
+    icon: "bi bi-hdd-stack",
   }
 ];
 

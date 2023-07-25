@@ -4,12 +4,6 @@ import { Button, Nav, NavItem } from "reactstrap";
 import Logo from "./Logo";
 
 const navigation = [
- 
-  {
-    title: "Dashboard",
-    href: "/trainee/dashboard",
-    icon: "bi bi-hdd-stack",
-  },
   {
     title: "Classroom",
     href: "/trainee/classroom",
@@ -18,7 +12,7 @@ const navigation = [
   {
     title: "Submit Assignment",
     href: "/trainee/submit-assignment",
-    icon: "bi bi-columns",
+    icon: "bi bi-textarea-resize",
   }
 ];
 

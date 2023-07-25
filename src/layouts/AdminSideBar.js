@@ -22,7 +22,7 @@ const navigation = [
   {
     title: "Batch",
     href: "/admin/batch-list",
-    icon: "bi bi-people",
+    icon: "bi bi-card-text",
   },
   {
     title: "Assign Trainee",
@@ -47,7 +47,7 @@ const navigation = [
   {
     title: "Classroom",
     href: "/admin/classroom",
-    icon: "bi bi-layout-split",
+    icon: "bi bi-hdd-stack",
   },
 ];
 
