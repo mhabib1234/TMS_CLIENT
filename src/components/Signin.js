@@ -42,9 +42,9 @@ const SignIn = () => {
       if (user && user.role === 'ADMIN') {
         navigate('/admin/dashboard');
       } else if (user && user.role === 'TRAINER') {
-        navigate('/trainer/dashboard');
+        navigate('/trainer/classroom');
       } else if (user && user.role === 'TRAINEE') {
-        navigate('/trainee/dashboard');
+        navigate('/trainee/classsroom');
       }
     } catch (error) {
       setShowError(true);
