@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import axios from 'axios';
 
 const NoticeCard = ({ post }) => {
-  const { trainerName, title, createdTime, fileUrl, id } = post;
+  const { senderName, title, createdTime, fileUrl, id } = post;
   const [expanded, setExpanded] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
 
@@ -40,7 +40,7 @@ const NoticeCard = ({ post }) => {
       return `${years} year${years === 1 ? '' : 's'} ago`;
     }
   };
-
+  const defaultSenderName = post.senderName || 'ADMIN';
 
   const handleFileDownload = () => {
     axios.get(`http://localhost:9080/notice/${id}/download`,{
@@ -89,7 +89,7 @@ const NoticeCard = ({ post }) => {
       <ToastContainer />
       <Card className="mb-3" style={{ fontSize: '13px', padding: '8px', backgroundColor: randomColor(), display: 'flex', flexDirection: 'column' }}>
         <CardBody className="p-2 d-flex justify-content-between align-items-center">
-          <div className="text-muted">Sender: {trainerName}</div>
+         <div className="text-muted">Sender: {defaultSenderName}</div>
           <Badge color="info" className="font-weight-bold">
             {formatTimestamp(createdTime)}
           </Badge>

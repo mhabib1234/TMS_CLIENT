@@ -155,10 +155,14 @@ const SubmitAssignment = () => {
                   <td>{assignment.type}</td>
                   <td>{new Date(assignment.deadline).toLocaleDateString()}</td>
                   <td>
-                    <a href={assignment.fileUrl} target="_blank" onClick={() => handleDownloadLinkClick(assignment.id)} rel="noopener noreferrer">
-                      Download
-                    </a>
-                  </td>
+                         {assignment.fileUrl ? (
+                        <a href={assignment.fileUrl} target="_blank" onClick={() => handleDownloadLinkClick(assignment.id)} rel="noopener noreferrer">
+                      file
+                            </a>
+                          ) : (
+                            "No file added"
+                          )}
+                        </td>
                   <td>
                     <Button color="primary" onClick={() => handleOpenModal(assignment)}>
                       Submit Assignment

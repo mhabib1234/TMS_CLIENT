@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import {  Link } from "react-router-dom";
 import { Container, Card, CardImg, CardImgOverlay, CardTitle, Row, Col } from "reactstrap";
 import placeholderImage from "../../assets/images/bg/bg3.jpg";
-import NoticeComponent from "../../components/NoticeComponent";
-import axios from "axios";
-import TrainerMessage from "../../components/TrainerMessage";
-import Notice from "./Notice";
+import AdminNotice from "../../components/AdminNotice";
+import AdminMessage from "../../components/AdminMessage";
+import AdminNoticeComponent from "../../components/AdminNoticeComponent";
+import AdminPostComponent from "../../components/AdminPostComponent";
 
 const AdminClassroom = () => {
   const [classId, setClassId] = useState(null);
@@ -23,14 +23,14 @@ const AdminClassroom = () => {
         </Card>
       </div>
       <div>
-   
+         <div> <AdminNotice/></div>
       </div>
       <Row className="mt-5">
         <Col md={8}>
-       {<TrainerMessage/>}
+       {<AdminPostComponent/>}
         </Col>
         <Col md={4}>
-      {<NoticeComponent/>}
+      {<AdminNoticeComponent/>}
         </Col>
       </Row>
     </Container>

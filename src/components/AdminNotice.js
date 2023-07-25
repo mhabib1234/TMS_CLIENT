@@ -4,10 +4,11 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const AdminNotice = ({ classroomId }) => {
+const AdminNotice = () => {
   const [formData, setFormData] = useState({
     title: '',
     file: null,
+    classroomId: '',
   });
 
   const [user, setUser] = useState(null);
@@ -34,12 +35,12 @@ const AdminNotice = ({ classroomId }) => {
         formDataToSend.append('file', formData.file);
       }
 
-      formDataToSend.append('classroomId', classroomId);
-      formDataToSend.append('trainerId', user.id);
+      formDataToSend.append('classroomId', formData.classroomId);
+      formDataToSend.append('senderEmail', user.userEmail);
+    
       console.log(formDataToSend);
 
-      const endpoint = formData.type === 'Message' ? 'posts' : 'notice';
-      const response = await axios.post(`http://localhost:9080/${endpoint}`, formDataToSend, {
+      const response = await axios.post('http://localhost:9080/notice', formDataToSend, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data',
@@ -47,11 +48,10 @@ const AdminNotice = ({ classroomId }) => {
       });
 
       toast.success(response.data);
-
       setFormData({
-        type: 'Message',
         title: '',
         file: null,
+        classroomId: '', // Reset the classroomId field after form submission
       });
     } catch (error) {
       console.log(error);
@@ -89,24 +89,23 @@ const AdminNotice = ({ classroomId }) => {
               <Col md={2}>
                 <FormGroup>
                   <Input
-                    type="select"
-                    name="type"
-                    value={formData.type}
+                    type="text"
+                    name="classroomId"
+                    value={formData.classroomId}
                     onChange={handleInputChange}
-                  >
-                    <option value="Message">Message</option>
-                    <option value="Notice">Notice</option>
-                  </Input>
+                    placeholder="Classroom ID"
+                    required
+                  />
                 </FormGroup>
               </Col>
-              <Col md={6}>
+              <Col md={4}>
                 <FormGroup>
                   <Input
                     type="text"
                     name="title"
                     value={formData.title}
                     onChange={handleInputChange}
-                    placeholder="Announce something to your class"
+                    placeholder="Send notice to the classrooms..."
                     required
                   />
                 </FormGroup>
@@ -116,8 +115,6 @@ const AdminNotice = ({ classroomId }) => {
                   <Input type="file" name="file" onChange={handleFileChange} />
                 </FormGroup>
               </Col>
-            </Row>
-            <Row className="justify-content-end">
               <Col md={2}>
                 <Button color="primary" type="submit" block>
                   Post

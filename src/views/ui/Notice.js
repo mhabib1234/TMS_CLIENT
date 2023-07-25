@@ -36,7 +36,12 @@ const Notice = ({ classroomId }) => {
       }
 
       formDataToSend.append('classroomId', classroomId);
-      formDataToSend.append('trainerId', user.id);
+      if (formData.type === 'Message'){
+        formDataToSend.append('trainerId', user.id);
+      }else{
+        formDataToSend.append('senderEmail', user.userEmail);
+      }
+    
       console.log(formDataToSend);
 
       const endpoint = formData.type === 'Message' ? 'posts' : 'notice';
