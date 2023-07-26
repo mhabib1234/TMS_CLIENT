@@ -52,7 +52,7 @@ const AllCourseList = () => {
         </Button>
       </div>
 
-      <h3>Number of Course: {totalCourses}</h3>
+      <h3>Number of Courses: {totalCourses}</h3>
 
       <Table responsive striped bordered>
         {/* Table header */}

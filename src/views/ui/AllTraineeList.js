@@ -62,7 +62,7 @@ const AllTraineeList = () => {
           Add Trainee
         </Button>
       </div>
-      <h3>Number of Trainee: {trainees.length}</h3>
+      <h3>Number of Trainees: {trainees.length}</h3>
     
       {/* Conditional rendering based on loading state */}
       {loading ? (

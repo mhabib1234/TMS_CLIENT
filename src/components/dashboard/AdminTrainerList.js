@@ -62,7 +62,7 @@ const AdminTrainerList = () => {
     <div>
       
 
-      <h3>Numebr of Trainer : {trainers.length}</h3>
+      <h3>Numebr of Trainers : {trainers.length}</h3>
 
       {/* Conditional rendering based on loading state */}
       {loading ? (
