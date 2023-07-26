@@ -13,7 +13,6 @@ import {
   Dropdown,
   Button,
 } from "reactstrap";
-import { ReactComponent as LogoWhite } from "../assets/images/logos/xtremelogowhite.svg";
 import user1 from "../assets/images/users/user1.jpg";
 import axios from "axios";
 
@@ -56,8 +55,8 @@ const Header = () => {
     <div className="sticky-top">
       <Navbar color="primary" dark expand="md">
         <div className="d-flex align-items-center">
-          <NavbarBrand href="/" className="d-lg-none">
-            <LogoWhite />
+        <NavbarBrand className="d-lg-none">
+            
           </NavbarBrand>
           <Button
             color="primary"
@@ -84,11 +83,6 @@ const Header = () => {
 
         <Collapse navbar isOpen={isOpen}>
           <Nav className="me-auto" navbar>
-            <NavItem>
-              <Link to="/starter" className="nav-link">
-                Starter
-              </Link>
-            </NavItem>
           </Nav>
           <Dropdown isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle color="primary">

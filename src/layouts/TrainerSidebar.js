@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button, Nav, NavItem } from "reactstrap";
-import Logo from "./Logo";
+import Logo from "../assets/images/logos/bjit.png";
 
 const navigation = [
   {
@@ -28,7 +28,15 @@ const TrainerSidebar = () => {
     <div className={`sticky-top ${sidebarOpen ? "sidebarOpen" : ""}`}>
       <div className="p-3">
         <div className="d-flex align-items-center">
-          <Logo />
+        <div className="d-none d-lg-block" style={{ flex: 1, marginLeft: "60px" }}>
+              <div className="d-flex justify-content-start align-items-center" style={{ height: "100%" }}>
+                <img
+                  src={Logo}
+                  alt="Logo"
+                  style={{ maxWidth: "25%", height: "auto" }}
+                />
+              </div>
+            </div>
           <span className="ms-auto d-lg-none">
             <Button close size="sm" className="ms-auto d-lg-none" onClick={toggleSidebar}></Button>
           </span>
