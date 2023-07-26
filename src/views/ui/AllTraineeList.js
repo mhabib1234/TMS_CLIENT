@@ -42,9 +42,8 @@ const AllTraineeList = () => {
     ? currentTrainees.map((trainee) => (
         <tr key={trainee.id}>
           <td>{trainee.fullName}</td>
-          <td>{trainee.profilePicture}</td>
-          <td>{trainee.gender}</td>
           <td>{trainee.email}</td>
+          <td>{trainee.gender}</td>
           <td>{trainee.domain}</td>
           <td>{trainee.contactNumber}</td>
           <td>{trainee.degreeName}</td>
@@ -73,9 +72,8 @@ const AllTraineeList = () => {
           <thead>
             <tr>
               <th>Full Name</th>
-              <th>Profile Picture</th>
-              <th>Gender</th>
               <th>Email</th>
+              <th>Gender</th>
               <th>Domain</th>
               <th>Contact Number</th>
               <th>Degree Name</th>

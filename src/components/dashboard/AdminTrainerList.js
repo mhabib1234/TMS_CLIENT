@@ -46,7 +46,6 @@ const AdminTrainerList = () => {
     ? currentTrainers.map((trainer) => (
         <tr key={trainer.id}>
           <td>{trainer.fullName}</td>
-          <td>{trainer.profilePicture}</td>
           <td>{trainer.email}</td>
           <td>{trainer.designation}</td>
           <td>{trainer.joiningDate}</td>
@@ -73,7 +72,6 @@ const AdminTrainerList = () => {
           <thead>
             <tr>
               <th>Full Name</th>
-              <th>Profile Picture</th>
               <th>Email</th>
               <th>Designation</th>
               <th>Joining Date</th>
