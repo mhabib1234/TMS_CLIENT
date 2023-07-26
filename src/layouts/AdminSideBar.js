@@ -6,7 +6,7 @@ import Logo from "../assets/images/logos/bjit.png";
 const navigation = [
   {
     title: "Dashboard",
-    href: "/admin/starter",
+    href: "/admin/dashboard",
     icon: "bi bi-speedometer2",
   },
   {

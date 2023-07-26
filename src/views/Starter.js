@@ -1,94 +1,57 @@
+import React from "react";
 import { Col, Row } from "reactstrap";
-import ProjectTables from "../components/dashboard/ProjectTable";
-import TopCards from "../components/dashboard/TopCards";
-import bg1 from "../assets/images/bg/bg1.jpg";
-import bg2 from "../assets/images/bg/bg2.jpg";
-import bg3 from "../assets/images/bg/bg3.jpg";
-import bg4 from "../assets/images/bg/bg4.jpg";
-
-const BlogData = [
-  {
-    image: bg1,
-    title: "This is simple blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg2,
-    title: "Lets be simple blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg3,
-    title: "Don't Lamp blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg4,
-    title: "Simple is beautiful",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-];
+import AllTraineeList from "./ui/AllTraineeList";
+import AdminTraineeList from "../components/dashboard/AdminTraineeList";
+import AdminBatchList from "../components/dashboard/AdminBatchList";
+import AdminCourseList from "../components/dashboard/AdminCourseList";
+import AdminScheduledPrograms from "../components/dashboard/AdminSchedulePrograms";
+import AdminTrainerList from "../components/dashboard/AdminTrainerList";
 
 const Starter = () => {
   return (
     <div>
-      {/***Top Cards***/}
-      <Row>
-        <Col sm="6" lg="3">
-          <TopCards
-            bg="bg-light-success text-success"
-            title="Profit"
-            subtitle="Total Batches"
-            earning="$21k"
-            icon="bi bi-wallet"
-          />
-        </Col>
-        <Col sm="6" lg="3">
-          <TopCards
-            bg="bg-light-danger text-danger"
-            title="Refunds"
-            subtitle="Total Trainers"
-            earning="$1k"
-            icon="bi bi-coin"
-          />
-        </Col>
-        <Col sm="6" lg="3">
-          <TopCards
-            bg="bg-light-warning text-warning"
-            title="New Project"
-            subtitle="Total Trainee"
-            earning="456"
-            icon="bi bi-basket3"
-          />
-        </Col>
-        <Col sm="6" lg="3">
-          <TopCards
-            bg="bg-light-info text-into"
-            title="Sales"
-            subtitle="Total Courses"
-            earning="210"
-            icon="bi bi-bag"
-          />
+      {/* Welcome Message */}
+      <Row className="mb-3">
+        <Col>
+          <h1>Welcome, Admin!</h1>
+          <p>
+            Here, you can view and manage all the batches, trainers, trainees, courses, and more.
+          </p>
         </Col>
       </Row>
-      {/***Sales & Feed***/}
-  
-      {/***Table ***/}
-      <Row>
-        <Col lg="12">
-          <ProjectTables />
+
+      {/* AdminBatchList */}
+      <Row className="mb-3">
+        <Col>
+          <AdminBatchList />
+        </Col>
+      </Row>
+
+      {/* AdminCourseList */}
+      <Row className="mb-3">
+        <Col>
+          <AdminCourseList />
+        </Col>
+      </Row>
+
+      {/* AdminScheduledPrograms */}
+      <Row className="mb-3">
+        <Col>
+          <AdminScheduledPrograms />
+        </Col>
+      </Row>
+
+      {/* AdminTrainerList */}
+      <Row className="mb-3">
+        <Col>
+          <AdminTrainerList />
+        </Col>
+      </Row>
+
+      {/* AdminTraineeList */}
+      <Row className="mb-3">
+        <Col>
+          <AdminTraineeList />
         </Col>
       </Row>
     </div>
