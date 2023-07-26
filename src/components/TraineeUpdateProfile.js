@@ -72,6 +72,7 @@ const TraineeUpdateProfile = () => {
   return (
     <Container className="d-flex justify-content-center">
       <div className="form-container">
+      <h3 className="text-center">Update Profile</h3> 
         <FormGroup row>
           <Label for="fullName" sm={4}>Full Name</Label>
           <Col sm={8}>
