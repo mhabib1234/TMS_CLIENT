@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, FormGroup, Input, Button, Alert } from 'reactstrap';
+import { Container, Row, Col, Label, Form, FormGroup, Input, Button, Alert } from 'reactstrap';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,18 +8,47 @@ const AdminNotice = () => {
   const [formData, setFormData] = useState({
     title: '',
     file: null,
-    classroomId: '',
+    classroomId: '', // Use classroomId as the state variable
   });
 
   const [user, setUser] = useState(null);
+  const [batchList, setBatchList] = useState([]);
 
   useEffect(() => {
+    fetchBatchNames();
+
     const userDataString = localStorage.getItem('user');
     if (userDataString) {
       const userData = JSON.parse(userDataString);
       setUser(userData);
     }
   }, []);
+
+  const fetchBatchNames = async () => {
+    try {
+      const response = await axios.get('http://localhost:9080/batch/get/allName', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      const batches = response.data.Batches.map((batch) => ({
+        id: batch.id,
+        name: batch.name,
+      }));
+      setBatchList(batches);
+    } catch (error) {
+      console.error('Error fetching batch names:', error);
+    }
+  };
+
+  // Update handleSelectOption to set classroomId
+  const handleSelectOption = (e) => {
+    const selectedClassroomId = e.target.value;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      classroomId: selectedClassroomId,
+    }));
+  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -37,7 +66,7 @@ const AdminNotice = () => {
 
       formDataToSend.append('classroomId', formData.classroomId);
       formDataToSend.append('senderEmail', user.userEmail);
-    
+
       console.log(formDataToSend);
 
       const response = await axios.post('http://localhost:9080/notice', formDataToSend, {
@@ -55,11 +84,7 @@ const AdminNotice = () => {
       });
     } catch (error) {
       console.log(error);
-      if (error.response && error.response.data) {
-        toast.error(error.response.data);
-      } else {
-        toast.error('Failed to create Notice');
-      }
+      toast.error('Failed to create Notice');
     }
   };
 
@@ -82,20 +107,26 @@ const AdminNotice = () => {
 
   return (
     <div>
-      <Row className="justify-content-center align-items-center ">
+      <Row className="justify-content-center align-items-center">
         <Col md={12}>
           <Form onSubmit={handleFormSubmit}>
             <Row>
               <Col md={2}>
                 <FormGroup>
                   <Input
-                    type="text"
-                    name="classroomId"
-                    value={formData.classroomId}
-                    onChange={handleInputChange}
-                    placeholder="Classroom ID"
+                    type="select"
+                    id="batch"
+                    value={formData.classroomId} 
+                    onChange={handleSelectOption} 
                     required
-                  />
+                  >
+                    <option value="">Batch</option>
+                    {batchList.map((batch) => (
+                      <option key={batch.id} value={batch.id}>
+                        {batch.name}
+                      </option>
+                    ))}
+                  </Input>
                 </FormGroup>
               </Col>
               <Col md={4}>
