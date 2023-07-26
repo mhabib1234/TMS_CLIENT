@@ -49,7 +49,6 @@ const SignIn = () => {
       }
     } catch (error) {
       setShowError(true);
-      toast.error('Error signing in');
       console.error('Error signing in:', error);
     }
   };
@@ -67,7 +66,7 @@ const SignIn = () => {
                 boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
               }}
             >
-              <h2 className="text-center mb-4">Sign In</h2>
+              <h2 className="text-center mb-4">Login in TMS</h2>
               {showError && (
                 <Alert color="danger" className="mb-4">
                   Invalid email or password. Please try again.
